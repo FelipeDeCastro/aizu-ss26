@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="pt"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Aizú — Cartas Náuticas · PDP</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--bone:#f0ece2;--bone-2:#e6e0d2;--grid:#cdbfa7;--ink:#0e1a22;--deep:#063949;--teal:#0a5a6e;--brass:#c89a3c;--coral:#cf6a4c;--mute:#6b7882;--serif:"Fraunces",serif;--sans:"Inter",sans-serif;--mono:"IBM Plex Mono",monospace;}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;background:var(--bone);color:var(--ink);font-family:var(--sans)}
+a{color:inherit;text-decoration:none}
+body{background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:40px 40px;background-blend-mode:multiply;}
+body::before{content:"";position:fixed;inset:0;background:rgba(240,236,226,.82);pointer-events:none;z-index:0}
+main,header,footer,.sticky-atc{position:relative;z-index:1}
+
+header.h{padding:14px 32px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;border-bottom:1px solid var(--ink)}
+header.h .l,header.h .r{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;display:flex;gap:24px}
+header.h .r{justify-content:flex-end}
+header.h .logo{font-family:var(--serif);font-weight:300;font-size:34px;text-align:center}
+header.h .logo em{font-style:italic;color:var(--coral)}
+.crumbs{padding:12px 32px;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);border-bottom:1px solid var(--ink);display:flex;justify-content:space-between}
+.crumbs span{color:var(--coral);margin:0 8px}
+
+/* Sheet — full plate of one garment */
+.sheet{display:grid;grid-template-columns:1.4fr 1fr;border-bottom:1px solid var(--ink)}
+.sheet .l{padding:8px;background:var(--bone-2);border-right:1px solid var(--ink)}
+.sheet .l .grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.sheet .l .frame{position:relative;background:repeating-linear-gradient(135deg,#1a2a36 0 8px,#0e1a22 8px 16px);aspect-ratio:3/4;overflow:hidden}
+.sheet .l .frame.span2{grid-column:span 2;aspect-ratio:16/9}
+.sheet .l .frame.bone{background:repeating-linear-gradient(135deg,#d8c8a4 0 8px,#cab98f 8px 16px)}
+.sheet .l .frame.detail{background:repeating-linear-gradient(135deg,#0a4a5c 0 8px,#063949 8px 16px)}
+.sheet .l .frame .lbl{position:absolute;top:14px;left:14px;color:var(--bone);font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;line-height:1.6}
+.sheet .l .frame.bone .lbl{color:var(--ink)}
+.sheet .l .frame .lbl b{color:var(--brass);font-weight:500}
+.sheet .l .frame .corners span{position:absolute;width:10px;height:10px;border:1px solid var(--bone)}
+.sheet .l .frame.bone .corners span{border-color:var(--ink)}
+.sheet .l .frame .corners span:nth-child(1){top:8px;left:8px;border-right:0;border-bottom:0}
+.sheet .l .frame .corners span:nth-child(2){top:8px;right:8px;border-left:0;border-bottom:0}
+.sheet .l .frame .corners span:nth-child(3){bottom:8px;left:8px;border-right:0;border-top:0}
+.sheet .l .frame .corners span:nth-child(4){bottom:8px;right:8px;border-left:0;border-top:0}
+.sheet .l .frame .pin{position:absolute;width:12px;height:12px;border:1.5px solid var(--brass);border-radius:50%}
+.sheet .l .frame .pin::after{content:"";position:absolute;inset:4px;background:var(--brass);border-radius:50%}
+.sheet .l .frame .p1{top:35%;left:48%}
+.sheet .l .frame .p2{top:62%;left:38%}
+
+.sheet .r{padding:48px 40px;position:sticky;top:0;align-self:start}
+.sheet .r .stamp{display:inline-flex;gap:14px;align-items:center;border:1px solid var(--ink);padding:6px 12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:18px}
+.sheet .r .stamp b{color:var(--coral);font-weight:500}
+.sheet .r h1{font-family:var(--serif);font-weight:300;font-size:120px;line-height:.85;margin:0 0 16px;letter-spacing:-.025em}
+.sheet .r h1 em{font-style:italic;color:var(--coral)}
+.sheet .r .row1{display:grid;grid-template-columns:1fr auto;align-items:baseline;padding:14px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+.sheet .r .price{font-family:var(--serif);font-size:32px;font-weight:300}
+.sheet .r .stars{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.sheet .r .stars b{color:var(--coral);letter-spacing:0;margin-right:6px}
+.sheet .r .dek{font-family:var(--serif);font-style:italic;font-size:22px;line-height:1.45;margin:18px 0;color:var(--ink)}
+
+.opt{margin:18px 0}
+.opt .h{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-bottom:10px;display:flex;justify-content:space-between}
+.opt .h a{color:var(--coral);text-decoration:underline}
+.sw-row{display:flex;gap:10px}
+.sw{width:38px;height:38px;border:1px solid var(--ink);position:relative;cursor:pointer}
+.sw.sel{outline:1px solid var(--coral);outline-offset:3px}
+.sz-row{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--ink)}
+.sz{padding:14px 0;text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.14em;border-right:1px solid var(--ink);background:transparent;cursor:pointer;position:relative}
+.sz:last-child{border-right:none}
+.sz.sel{background:var(--ink);color:var(--bone)}
+.sz.low::after{content:"";position:absolute;top:6px;right:6px;width:5px;height:5px;background:var(--coral);border-radius:50%}
+
+.depth{margin:14px 0;padding:14px 16px;background:var(--bone-2);border:1px solid var(--ink);font-size:13px;font-family:var(--sans);display:flex;gap:12px;align-items:center}
+.depth .d{width:8px;height:8px;background:var(--coral);border-radius:50%}
+.depth a{color:var(--coral);text-decoration:underline}
+
+.atc-row{display:grid;grid-template-columns:1fr 56px;gap:8px;margin:18px 0}
+.atc{padding:18px 0;background:var(--ink);color:var(--bone);border:0;font-family:var(--mono);font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
+.wishbtn{border:1px solid var(--ink);background:transparent;display:flex;align-items:center;justify-content:center}
+.wishbtn svg{width:18px;height:18px}
+
+.trust{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--ink);margin-top:18px}
+.trust div{padding:12px;border-right:1px solid var(--ink);font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);text-align:center}
+.trust div:last-child{border-right:none}
+.trust div b{display:block;color:var(--coral);font-weight:500;margin-bottom:4px}
+
+/* Specs sheet */
+.specs{padding:64px 32px;border-bottom:1px solid var(--ink);display:grid;grid-template-columns:1fr 1.4fr;gap:48px}
+.specs .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--coral)}
+.specs h2{font-family:var(--serif);font-weight:300;font-size:80px;line-height:.92;margin:8px 0 0;letter-spacing:-.015em}
+.specs h2 em{font-style:italic;color:var(--teal)}
+.specs dl{margin:0;display:grid;grid-template-columns:160px 1fr;border-top:1px solid var(--ink)}
+.specs dt{padding:14px 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);border-bottom:1px solid var(--grid)}
+.specs dd{margin:0;padding:14px 0;font-family:var(--serif);font-size:18px;font-style:italic;border-bottom:1px solid var(--grid)}
+.specs dd em{color:var(--teal);font-style:italic}
+
+/* Reviews */
+.rv-sec{padding:64px 32px;border-bottom:1px solid var(--ink)}
+.rv-h{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end;margin-bottom:36px}
+.rv-h .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--coral)}
+.rv-h h2{font-family:var(--serif);font-weight:300;font-size:64px;line-height:.95;margin:8px 0 0;letter-spacing:-.01em}
+.rv-h h2 em{font-style:italic;color:var(--teal)}
+.rv-h .agg{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:end}
+.rv-h .num{font-family:var(--serif);font-weight:300;font-size:96px;line-height:.85}
+.rv-h .stars{color:var(--coral);font-size:14px;letter-spacing:0}
+.rv-h .meta{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-top:6px}
+.rv-h .fitbar{margin-top:14px}
+.rv-h .fitbar .lbls{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.rv-h .bar{height:6px;background:var(--bone-2);border:1px solid var(--ink);position:relative}
+.rv-h .bar::after{content:"";position:absolute;left:54%;top:-4px;width:3px;height:14px;background:var(--coral)}
+.rv-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--ink)}
+.rv{padding:24px;border-right:1px solid var(--ink)}
+.rv:last-child{border-right:none}
+.rv .stars{color:var(--coral);letter-spacing:0;font-size:14px}
+.rv .photo{aspect-ratio:1/1;margin:14px 0;background:repeating-linear-gradient(135deg,#1a2a36 0 6px,#0e1a22 6px 12px);position:relative}
+.rv .photo.b{background:repeating-linear-gradient(135deg,#d8c8a4 0 6px,#cab98f 6px 12px)}
+.rv .photo.t{background:repeating-linear-gradient(135deg,#cf6a4c 0 6px,#b85838 6px 12px)}
+.rv .photo .lbl{position:absolute;bottom:8px;left:8px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:rgba(240,236,226,.85)}
+.rv .photo.b .lbl{color:rgba(14,26,34,.7)}
+.rv h5{font-family:var(--serif);font-weight:400;font-size:22px;margin:8px 0 6px;line-height:1.2}
+.rv h5 em{font-style:italic}
+.rv p{font-family:var(--serif);font-size:16px;line-height:1.5;margin:0 0 10px;color:var(--ink)}
+.rv .by{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);padding-top:10px;border-top:1px solid var(--grid);display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.rv .by b{color:var(--ink);font-weight:500;display:block}
+
+/* Related */
+.rel{padding:64px 32px;border-bottom:1px solid var(--ink)}
+.rel h2{font-family:var(--serif);font-weight:300;font-size:64px;margin:0 0 32px;letter-spacing:-.01em}
+.rel h2 em{font-style:italic;color:var(--coral)}
+.rgrid{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--ink)}
+.rgrid .c{border-right:1px solid var(--ink);padding:12px}
+.rgrid .c:last-child{border-right:none}
+.rgrid .c .img{aspect-ratio:3/4;background:repeating-linear-gradient(135deg,#1a2a36 0 6px,#0e1a22 6px 12px);position:relative}
+.rgrid .c .img.bone{background:repeating-linear-gradient(135deg,#d8c8a4 0 6px,#cab98f 6px 12px)}
+.rgrid .c .img.terra{background:repeating-linear-gradient(135deg,#cf6a4c 0 6px,#b85838 6px 12px)}
+.rgrid .c .img.brass{background:repeating-linear-gradient(135deg,#c89a3c 0 6px,#b18a2c 6px 12px)}
+.rgrid .meta{padding:12px 4px 0;display:flex;justify-content:space-between;align-items:baseline}
+.rgrid .nm{font-family:var(--serif);font-size:24px}
+.rgrid .nm em{font-style:italic;color:var(--coral)}
+.rgrid .pr{font-family:var(--mono);font-size:12px;color:var(--mute)}
+
+/* Sticky */
+.sticky-atc{position:sticky;bottom:0;background:rgba(240,236,226,.96);backdrop-filter:blur(10px);border-top:1px solid var(--ink);padding:12px 32px;display:grid;grid-template-columns:auto 1fr auto auto;gap:24px;align-items:center}
+.sticky-atc .t{font-family:var(--serif);font-size:24px}
+.sticky-atc .t em{font-style:italic;color:var(--coral)}
+.sticky-atc .p{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--mute);text-transform:uppercase}
+.sticky-atc .sz-mini{display:flex;border:1px solid var(--ink)}
+.sticky-atc .sz-mini span{padding:6px 12px;border-right:1px solid var(--ink);font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase}
+.sticky-atc .sz-mini span:last-child{border-right:none}
+.sticky-atc .sz-mini span.sel{background:var(--ink);color:var(--bone)}
+.sticky-atc .ab{padding:12px 26px;background:var(--coral);color:var(--bone);font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;border:0;cursor:pointer}
+
+footer{background:var(--ink);color:var(--bone);padding:32px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase}
+</style></head>
+<body>
+
+<header class="h">
+  <div class="l"><span>PT · EUR</span><span>Loja</span><span>Mar de Atlas</span><span>Diário</span></div>
+  <div class="logo">Aiz<em>ú</em></div>
+  <div class="r"><span>Pesquisar</span><span>Conta</span><span>Wishlist · 2</span><span>Carrinho · 1</span></div>
+</header>
+
+<div class="crumbs">
+  <span style="color:var(--mute);">Loja <span>›</span> Mar de Atlas <span>›</span> Cap. I · Profundo <span>›</span> Atlas</span>
+  <span style="color:var(--mute);">Plate II · Carta SS26 · 12 · 38°10′N</span>
+</div>
+
+<main>
+
+<section class="sheet">
+  <div class="l">
+    <div class="grid">
+      <div class="frame">
+        <div class="lbl">Plate II<br/><b>Atlas</b><br/>still · front</div>
+        <div class="corners"><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="frame bone">
+        <div class="lbl">Plate II<br/><b>173cm · M</b><br/>on-body</div>
+        <div class="corners"><span></span><span></span><span></span><span></span></div>
+        <span class="pin p1"></span>
+      </div>
+      <div class="frame detail">
+        <div class="lbl">Plate II<br/><b>back detail</b><br/>costas baixas</div>
+        <div class="corners"><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="frame">
+        <div class="lbl">Plate II<br/><b>in-water</b><br/>Bordeira · 14:32</div>
+        <div class="corners"><span></span><span></span><span></span><span></span></div>
+        <span class="pin p2"></span>
+      </div>
+      <div class="frame span2">
+        <div class="lbl">Plate II<br/><b>editorial</b> · 35mm · golden hour · Costa Vicentina</div>
+        <div class="corners"><span></span><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </div>
+  <div class="r">
+    <div class="stamp"><b>Plate II</b><span>Cap. I · Profundo</span><span>Nº 01</span></div>
+    <h1><em>Atlas</em></h1>
+    <div class="row1">
+      <span class="price">€118</span>
+      <span class="stars"><b>★★★★★</b>4.8 · 127 cartas</span>
+    </div>
+    <p class="dek">Fato de banho de costas baixas em azul-titã. O azul mais escuro do oceano — vestido para entrar.</p>
+
+    <div class="opt">
+      <div class="h"><span>Cor — Atlas (azul-titã)</span></div>
+      <div class="sw-row"><span class="sw sel" style="background:#063949"></span><span class="sw" style="background:#1a2a36"></span></div>
+    </div>
+
+    <div class="opt">
+      <div class="h"><span>Tamanho</span><a>Guia · Encontre o seu →</a></div>
+      <div class="sz-row"><span class="sz">XS</span><span class="sz sel">S</span><span class="sz low">M</span><span class="sz">L</span><span class="sz low">XL</span></div>
+    </div>
+
+    <div class="depth"><span class="d"></span><span><strong>Sondagem:</strong> apenas 2 em stock no M · <a>Avise-me quando voltar</a></span></div>
+
+    <div class="atc-row">
+      <button class="atc">Adicionar ao carrinho — €118</button>
+      <button class="wishbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9z"/></svg></button>
+    </div>
+
+    <div class="trust">
+      <div><b>Envio</b>Grátis PT · 2–3d</div>
+      <div><b>Devolução</b>30 dias</div>
+      <div><b>Feito em</b>Barcelos, PT</div>
+    </div>
+  </div>
+</section>
+
+<section class="specs">
+  <div>
+    <div class="lab">Folha de especificações</div>
+    <h2>Sobre o <em>Atlas</em>.</h2>
+  </div>
+  <dl>
+    <dt>Tecido</dt><dd>78% poliamida reciclada (<em>ECONYL®</em>) · 22% elastano · italiano</dd>
+    <dt>Confecção</dt><dd>Barcelos, <em>Portugal</em> · sazonal · séries pequenas</dd>
+    <dt>Acabamento</dt><dd>fosco · costuras planas · alça interior antiderrapante</dd>
+    <dt>Fit</dt><dd>justo · costas baixas · pernas altas · <em>sobe meio</em> para mais folgado</dd>
+    <dt>Modelo</dt><dd>Joana, 173cm, veste S</dd>
+    <dt>Cuidados</dt><dd>lavagem à mão · água fria · secar à sombra</dd>
+    <dt>Durabilidade</dt><dd><em>cinco verões</em>, não três</dd>
+  </dl>
+</section>
+
+<section class="rv-sec">
+  <div class="rv-h">
+    <div><div class="lab">Cartas das leitoras · 127 entradas</div><h2>O que <em>elas</em> escreveram.</h2></div>
+    <div class="agg">
+      <div><div class="num">4.8</div><div class="stars">★★★★★</div><div class="meta">127 avaliações verificadas</div></div>
+      <div>
+        <div class="meta">Fit · "fiel ao tamanho"</div>
+        <div class="fitbar"><div class="lbls"><span>Pequeno</span><span>Fiel</span><span>Grande</span></div><div class="bar"></div></div>
+        <div class="meta" style="margin-top:14px;">Tecido · "excelente" 96% · Cor "fiel" 91%</div>
+      </div>
+    </div>
+  </div>
+  <div class="rv-grid">
+    <div class="rv"><div class="stars">★★★★★</div><div class="photo"><span class="lbl">@maria.lobo · Carvalho</span></div><h5>"Vesti-o no Carvalho durante uma semana inteira."</h5><p>Aguentou sol, água salgada, areia. Continua igual. Comprei o Vaga a seguir.</p><div class="by"><span><b>Maria L.</b>Lisboa</span><span><b>S</b>Fiel</span><span><b>173cm</b>62kg</span></div></div>
+    <div class="rv"><div class="stars">★★★★★</div><div class="photo b"><span class="lbl">@sofia.mota · Ericeira</span></div><h5>"O melhor que tenho para <em>surfar</em>."</h5><p>Não sai do lugar nas duck-dives. E não parece roupa de desporto.</p><div class="by"><span><b>Sofia M.</b>Ericeira</span><span><b>M</b>Fiel</span><span><b>168cm</b>58kg</span></div></div>
+    <div class="rv"><div class="stars">★★★★☆</div><div class="photo t"><span class="lbl">@beatriz.pl · Foz</span></div><h5>"Hesitei no tamanho — bem aconselhada."</h5><p>Acabei por ficar com o S. A fundadora respondeu-me em 2 horas.</p><div class="by"><span><b>Beatriz P.</b>Porto</span><span><b>S</b>Sobe ½</span><span><b>165cm</b>54kg</span></div></div>
+  </div>
+</section>
+
+<section class="rel">
+  <h2>Combina <em>com</em>.</h2>
+  <div class="rgrid">
+    <div class="c"><div class="img"></div><div class="meta"><span class="nm"><em>Vaga</em></span><span class="pr">€105</span></div></div>
+    <div class="c"><div class="img bone"></div><div class="meta"><span class="nm"><em>Espuma</em></span><span class="pr">€98</span></div></div>
+    <div class="c"><div class="img terra"></div><div class="meta"><span class="nm"><em>Lua-Cheia</em></span><span class="pr">€118</span></div></div>
+    <div class="c"><div class="img brass"></div><div class="meta"><span class="nm"><em>Farol</em></span><span class="pr">€108</span></div></div>
+  </div>
+</section>
+
+</main>
+
+<div class="sticky-atc">
+  <div><div class="t"><em>Atlas</em></div><div class="p">Plate II · Azul-titã</div></div>
+  <div class="sz-mini"><span>XS</span><span class="sel">S</span><span>M</span><span>L</span><span>XL</span></div>
+  <div class="p">€118</div>
+  <button class="ab">Adicionar →</button>
+</div>
+
+<footer><span>© 2026 Aizú · Carta SS26 · 12</span><span>38°42′N · 9°08′W</span><span>Editado em Lisboa</span></footer>
+
+</body></html>

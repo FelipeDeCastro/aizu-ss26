@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Aizú — Deck para Stakeholders</title>
+<link rel="stylesheet" href="tokens.css" />
+<script src="deck-stage.js"></script>
+<style>
+  :root{
+    --slide-bg: var(--paper);
+    --slide-ink: var(--ink);
+  }
+  html,body{ background:#0e1419; }
+  deck-stage{ background:#0e1419; }
+  deck-stage section{
+    background: var(--slide-bg);
+    color: var(--slide-ink);
+    width:1920px; height:1080px;
+    padding:96px 120px;
+    position:relative;
+    overflow:hidden;
+    font-family:var(--sans);
+    display:flex; flex-direction:column;
+  }
+  deck-stage section.dark{
+    --slide-bg: #0e1e2a;
+    --slide-ink: #f4ede2;
+  }
+  deck-stage section.warm{
+    --slide-bg: #ebe2d2;
+  }
+
+  /* Slide chrome */
+  .slide-head{ display:flex; justify-content:space-between; align-items:center; }
+  .wm{ font-family:var(--serif); font-size:34px; }
+  .wm em{ font-style:italic; }
+  .pageno{ font-family:var(--mono); font-size:14px; letter-spacing:.16em; text-transform:uppercase; opacity:.55; }
+  .slide-foot{ margin-top:auto; display:flex; justify-content:space-between; align-items:flex-end; }
+  .slide-foot .meta{ font-family:var(--mono); font-size:13px; letter-spacing:.14em; text-transform:uppercase; opacity:.55; }
+
+  .eyebrow-deck{
+    font-family:var(--mono); font-size:14px; letter-spacing:.22em; text-transform:uppercase; opacity:.6; margin-bottom:28px;
+  }
+  h1.title{
+    font-family:var(--serif); font-weight:400; font-size:200px; line-height:.92; letter-spacing:-.012em; margin:0;
+  }
+  h1.title em{ font-style:italic; }
+  h2.section{
+    font-family:var(--serif); font-weight:400; font-size:140px; line-height:.95; letter-spacing:-.01em; margin:0;
+  }
+  h2.section em{ font-style:italic; }
+  h3.slide{
+    font-family:var(--serif); font-weight:400; font-size:88px; line-height:.98; letter-spacing:-.005em; margin:0 0 40px;
+  }
+  h3.slide em{ font-style:italic; }
+  p.lede{ font-family:var(--serif); font-size:38px; line-height:1.32; max-width:32ch; margin:0; color: color-mix(in oklab, var(--slide-ink) 80%, transparent); }
+  p.body{ font-size:24px; line-height:1.55; max-width:60ch; margin:0 0 16px; }
+  p.caption{ font-family:var(--mono); font-size:15px; letter-spacing:.14em; text-transform:uppercase; opacity:.55; }
+
+  .body-area{ flex:1; display:flex; align-items:center; padding:72px 0; }
+
+  /* Slide-specific */
+  .two-col{ display:grid; grid-template-columns: 1fr 1fr; gap:96px; width:100%; align-items:start; }
+  .three-col{ display:grid; grid-template-columns: repeat(3, 1fr); gap:48px; width:100%; align-items:start; }
+  .four-col{ display:grid; grid-template-columns: repeat(4, 1fr); gap:32px; width:100%; align-items:start; }
+
+  /* Cards */
+  .stat .v{ font-family:var(--serif); font-size:160px; line-height:.9; }
+  .stat .v em{ font-style:italic; }
+  .stat .l{ font-family:var(--mono); font-size:15px; letter-spacing:.16em; text-transform:uppercase; opacity:.6; margin-top:16px; }
+  .stat .n{ font-size:21px; line-height:1.45; margin-top:14px; max-width:24ch; }
+
+  .pill-list{ display:flex; flex-wrap:wrap; gap:14px; margin-top:24px; }
+  .pill-list span{ border:1px solid currentColor; opacity:.7; padding:10px 16px; font-family:var(--mono); font-size:14px; letter-spacing:.12em; text-transform:uppercase; border-radius:999px; }
+
+  .quote{ font-family:var(--serif); font-style:italic; font-size:108px; line-height:1.05; letter-spacing:-.005em; max-width:22ch; }
+  .quote-attr{ font-family:var(--mono); font-size:14px; letter-spacing:.18em; text-transform:uppercase; opacity:.55; margin-top:36px; }
+
+  /* Map slide */
+  .map-deck{ position:relative; width:100%; aspect-ratio:1.6/1; border:1px solid currentColor; opacity:.95; }
+  .map-deck .axis{ position:absolute; background:currentColor; opacity:.5; }
+  .map-deck .axis.h{ left:0; right:0; top:50%; height:1px; }
+  .map-deck .axis.v{ top:0; bottom:0; left:50%; width:1px; }
+  .map-deck .lbl{ position:absolute; font-family:var(--mono); font-size:14px; letter-spacing:.18em; text-transform:uppercase; opacity:.6; }
+  .map-deck .lbl.t{ top:18px; left:50%; transform:translateX(-50%); }
+  .map-deck .lbl.b{ bottom:18px; left:50%; transform:translateX(-50%); }
+  .map-deck .lbl.l{ left:18px; top:50%; transform:translateY(-50%) rotate(-90deg); transform-origin:left center; }
+  .map-deck .lbl.r{ right:18px; top:50%; transform:translateY(-50%) rotate(-90deg); transform-origin:right center; }
+  .map-deck .pt{ position:absolute; transform:translate(-50%, -50%); font-family:var(--serif); font-size:22px; }
+  .map-deck .pt::before{ content:""; display:inline-block; width:10px; height:10px; background:currentColor; border-radius:50%; margin-right:10px; vertical-align:middle; }
+  .map-deck .pt.us{ font-style:italic; font-size:30px; color:#b96b4a; }
+  .map-deck .pt.us::before{ background:#b96b4a; width:18px; height:18px; }
+
+  /* Calendar mini */
+  .cal-deck{ display:grid; grid-template-columns: 180px repeat(6, 1fr); border:1px solid currentColor; font-size:18px; width:100%; }
+  .cal-deck > div{ padding:18px 14px; border-bottom:1px solid currentColor; border-right:1px solid currentColor; }
+  .cal-deck > div:nth-child(7n){ border-right:none; }
+  .cal-deck .head{ font-family:var(--mono); font-size:13px; letter-spacing:.14em; text-transform:uppercase; opacity:.65; background: color-mix(in oklab, currentColor 6%, transparent); }
+  .cal-deck .row-label{ font-family:var(--mono); font-size:13px; letter-spacing:.12em; text-transform:uppercase; opacity:.65; }
+  .cal-deck .a{ background:#cfddc7; color:#15232e; }
+  .cal-deck .b{ background:#d8c8a4; color:#15232e; }
+  .cal-deck .c{ background:#d99d80; color:#15232e; }
+  .cal-deck .d{ background:#a9bcc8; color:#15232e; }
+
+  /* Direction cards (slide 11) */
+  .dir-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:32px; width:100%; }
+  .dir-card{ aspect-ratio: 3/4; padding:32px; display:flex; flex-direction:column; justify-content:space-between; }
+  .dir-card .num{ font-family:var(--mono); font-size:14px; letter-spacing:.18em; text-transform:uppercase; opacity:.7; }
+  .dir-card h4{ font-family:var(--serif); font-weight:400; font-size:62px; line-height:.96; margin:0; }
+  .dir-card h4 em{ font-style:italic; }
+  .dir-card .desc{ font-size:20px; line-height:1.45; opacity:.85; }
+  .dir-card .swatches{ display:flex; gap:8px; margin-top:16px; }
+  .dir-card .swatches span{ width:40px; height:40px; }
+  .dir-a{ background:#f4ede2; color:#15232e; border:1px solid #ddd1bb; }
+  .dir-b{ background:#ebe2d2; color:#3a2618; }
+  .dir-c{ background:#0e1e2a; color:#f4ede2; }
+
+  /* Image placeholder */
+  .ph{ width:100%; aspect-ratio:3/4; background:
+        repeating-linear-gradient(135deg, #d8cdb6 0 6px, #cfc3a8 6px 12px);
+        position:relative; overflow:hidden; }
+  .ph.dark{ background:
+        repeating-linear-gradient(135deg, #1a2c39 0 6px, #15232e 6px 12px); color:#b8c8d2; }
+  .ph .lbl{ position:absolute; bottom:16px; left:16px; font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; }
+  .ph.wide{ aspect-ratio:16/9; }
+  .ph.tall{ aspect-ratio:2/3; }
+
+  /* "Numbered list" */
+  .num-list{ counter-reset:nl; list-style:none; padding:0; margin:0; }
+  .num-list li{ counter-increment:nl; padding:18px 0; border-top:1px solid currentColor; display:grid; grid-template-columns: 90px 1fr; gap:24px; font-size:24px; line-height:1.4; }
+  .num-list li::before{ content:counter(nl, decimal-leading-zero); font-family:var(--mono); font-size:14px; letter-spacing:.14em; opacity:.55; padding-top:6px; }
+  .num-list li:last-child{ border-bottom:1px solid currentColor; }
+  .num-list li strong{ font-weight:500; }
+
+  .compass-deck{ width:100px; height:100px; opacity:.5; }
+
+  a{ color:inherit; }
+</style>
+</head>
+<body>
+
+<deck-stage>
+
+  <!-- ============ SLIDE 01 — COVER ============ -->
+  <section class="dark" data-screen-label="01 Cover">
+    <div class="slide-head">
+      <div class="wm">Aiz<em>ú</em></div>
+      <div class="pageno">SS26 · Brief para Stakeholders · Maio 2026</div>
+    </div>
+    <div class="body-area" style="align-items:flex-end;">
+      <div>
+        <div class="eyebrow-deck">Um redesign e um lançamento — para a sala</div>
+        <h1 class="title">Mar de<br/><em>Atlas</em>.</h1>
+        <p class="lede" style="margin-top:48px; max-width:38ch;">O argumento para uma Aizú mais quieta e mais profunda — e o plano para a lançar antes do verão.</p>
+      </div>
+    </div>
+    <div class="slide-foot">
+      <div class="meta">Aizú · Interno · Confidencial</div>
+      <svg class="compass-deck" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width=".5">
+        <circle cx="50" cy="50" r="48"/>
+        <circle cx="50" cy="50" r="34"/>
+        <path d="M50 6 L52 50 L50 94 L48 50 Z" fill="currentColor" stroke="none" opacity=".7"/>
+        <path d="M6 50 L50 48 L94 50 L50 52 Z" fill="currentColor" stroke="none" opacity=".4"/>
+      </svg>
+      <div class="meta">38°42′N · 9°08′W</div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 02 — THE PROBLEM ============ -->
+  <section data-screen-label="02 The problem">
+    <div class="slide-head"><div class="wm">Aiz<em>ú</em></div><div class="pageno">02 / 12 — O problema</div></div>
+    <div class="body-area">
+      <div class="two-col">
+        <div>
+          <div class="eyebrow-deck">Onde estamos</div>
+          <h3 class="slide">O produto é mais <em>quieto</em><br/>do que a loja.</h3>
+          <p class="body">A Aizú já tem o ativo de marca mais raro no fato de banho português — um sistema de nomes poético que mais ninguém consegue imitar com credibilidade. Aurora, Sol Nascente, Bruma, Calmaria, Alvor.</p>
+          <p class="body">Mas o site, a fotografia e o marketing ainda não acompanharam. A história termina no hero da página inicial.</p>
+        </div>
+        <div>
+          <div class="ph"><span class="lbl">Aizuswim.com — estado atual · captura de ecrã</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-foot"><div class="meta">Aizú · SS26 Brief</div><div class="meta">02</div></div>
+  </section>
+
+  <!-- ============ SLIDE 03 — AUDIT KPIs ============ -->
+  <section class="warm" data-screen-label="03 Site audit">
+    <div class="slide-head"><div class="wm">Aiz<em>ú</em></div><div class="pageno">03 / 12 — Auditoria</div></div>
+    <div class="body-area">
+      <div style="width:100%;">
+        <h3 class="slide">Oito superfícies.<br/><em>Três</em> em falta por completo.</h3>
+        <div class="four-col" style="margin-top:24px;">
+          <div class="stat"><div class="v"><em>0</em></div><div class="l">Fotos na água</div><div class="n">Sem imagens no corpo ou em contexto em nenhum lugar do site.</div></div>
+          <div class="stat"><div class="v"><em>0</em></div><div class="l">Avaliações na PDP</div><div class="n">Sem prova social, sem feedback de fit, sem UGC.</div></div>
+          <div class="stat"><div class="v"><em>1</em></div><div class="l">Frase por coleção</div><div class="n">"Amanhecer" tem uma linha; o lookbook está em falta.</div></div>
+          <div class="stat"><div class="v"><em>~1.5</em>%</div><div class="l">Conversão estimada</div><div class="n">O benchmark da indústria para esta categoria é 2,4–3,1%.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-foot"><div class="meta">Aizú · SS26 Brief</div><div class="meta">03</div></div>
+  </section>
+
+  <!-- ============ SLIDE 04 — POSITIONING MAP ============ -->
+  <section data-screen-label="04 Positioning map">
+    <div class="slide-head"><div class="wm">Aiz<em>ú</em></div><div class="pageno">04 / 12 — Panorama</div></div>
+    <div class="body-area">
+      <div class="two-col" style="grid-template-columns: 1.4fr 1fr; gap:80px;">
+        <div class="map-deck">
+          <div class="axis h"></div><div class="axis v"></div>
+          <div class="lbl t">Quieto · Poético</div>
+          <div class="lbl b">Barulhento · Lúdico</div>
+          <div class="lbl l">Acessível</div>
+          <div class="lbl r">Premium</div>
+          <div class="pt" style="left:22%; top:78%;">Cantê</div>
+          <div class="pt" style="left:30%; top:70%;">38 Graus</div>
+          <div class="pt" style="left:78%; top:62%;">Latitid</div>
+          <div class="pt" style="left:55%; top:58%;">Drope</div>
+          <div class="pt" style="left:42%; top:36%;">Aumar</div>
+          <div class="pt" style="left:62%; top:30%;">Conscious</div>
+          <div class="pt" style="left:70%; top:42%;">Cleome</div>
+          <div class="pt" style="left:50%; top:46%;">Kalimera</div>
+          <div class="pt us" style="left:74%; top:22%;">Aizú</div>
+        </div>
+        <div>
+          <div class="eyebrow-deck">O quadrante vazio</div>
+          <h3 class="slide" style="font-size:64px;">Premium &amp; <em>quieto</em>.</h3>
+          <p class="body">Duas faixas estão cheias — sustentabilidade e estampados ousados. A faixa para a narrativa ponderada, oceano-como-poesia, médio-premium não tem líder claro.</p>
+          <p class="body">É a faixa que a Aizú já toca. O trabalho é comprometer-se.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-foot"><div class="meta">Aizú · SS26 Brief</div><div class="meta">04</div></div>
+  </section>
+
+  <!-- ============ SLIDE 05 — POSITIONING THESIS ============ -->
+  <section class="dark" data-screen-label="05 Positioning thesis">
+    <div class="slide-head"><div class="wm">Aiz<em>ú</em></div><div class="pageno">05 / 12 — Tese</div></div>
+    <div class="body-area" style="align-items:center;">
+      <div style="max-width:none;">
+        <div class="eyebrow-deck" style="color:#c9b89a;">Tese de posicionamento</div>
+        <p class="quote">A Aizú é o fato de banho do <em>Atlântico</em> português — quieto, ponderado, escrito em poesia, feito para a mulher que lê o mar.</p>
+        <div class="quote-attr">Médio-premium · €95–140 · Lisboa e a UE</div>
+      </div>
+    </div>
+    <div class="slide-foot"><div class="meta">Aizú · SS26 Brief</div><div class="meta">05</div></div>
+  </section>
+
+  <!-- ============ SLIDE 06 — AUDIENCE ============ -->
+  <section class="warm" data-screen-label="06 Audience">
+    <div class="slide-head"><div class="wm">Aiz<em>ú</em></div><div class="pageno">06 / 12 — Público</div></div>
+    <div class="body-area">
+      <div style="width:100%;">
+        <h3 class="slide">A mulher a quem vendemos.</h3>
+        <div class="three-col">
+          <div>
+            <div class="ph tall"><span class="lbl">Retrato editorial · filme 35mm</span></div>
+            <p class="caption" style="margin-top:18px;">Principal</p>
+            <h4 style="font-family:var(--serif); font-size:38px; font-weight:400; margin:6px 0 10px;">Mariana, <em>36</em>, Cascais</h4>
+            <p style="font-size:18px; line-height:1.5; margin:0;">Arquiteta. Duas peças por ano, guardadas por três. Lê Kinfolk, vai à praia num Volvo antigo.</p>
+          </div>
+          <div>
+            <div class="ph tall"><span class="lbl">Lineup de surf · na água</span></div>
+            <p class="caption" style="margin-top:18px;">Adjacente</p>
+            <h4 style="font-family:var(--serif); font-size:38px; font-weight:400; margin:6px 0 10px;">Sofia, <em>32</em>, próxima do surf</h4>
+            <p style="font-size:18px; line-height:1.5; margin:0;">Faz surf uma vez por semana de maio a outubro. Quer uma peça que aguente uma duck-dive mas que não pareça roupa de desporto.</p>
+          </div>
+          <div>
+            <div class="ph tall"><span class="lbl">Família no Algarve</span></div>
+            <p class="caption" style="margin-top:18px;">Adjacente</p>
+            <h4 style="font-family:var(--serif); font-size:38px; font-weight:400; margin:6px 0 10px;">Inês, <em>41</em>, família</h4>
+            <p style="font-size:18px; line-height:1.5; margin:0;">Dois filhos, Algarve todos os verões. Compra três peças num único carrinho se o guia de tamanhos for honesto.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-foot"><div class="meta">Aizú · SS26 Brief</div><div class="meta">06</div></div>
+  </section>
+
+  <!-- ============ SLIDE 07 — MAR DE ATLAS REVEAL ============ -->
+  <section class="dark" data-screen-label="07 Mar de Atlas reveal">
+    <div class="slide-head"><div class="wm">Aiz<em>ú</em></div><div class="pageno">07 / 12 — Coleção</div></div>
+    <div class="body-area">
+      <div class="two-col" style="grid-template-columns: 1.1fr .9fr; gap:96px; align-items:center;">
+        <div>
+          <div class="eyebrow-deck" style="color:#c9b89a;">Primavera–Verão 2026</div>
+          <h2 class="section">Mar de<br/><em>Atlas</em>.</h2>
+          <p class="lede" style="margin-top:40px; max-width:30ch;">O Atlântico contado como uma pequena mitologia. Seis peças, três capítulos — Profundo, Corrente, Maré.</p>
+        </div>
+        <div class="ph dark tall"><span class="lbl">Hero SS26 · Bordeira · hora dourada</span></div>
+      </div>
+    </div>
+    <div class="slide-foot"><div class="meta">Aizú · SS26 Brief</div><div class="meta">07</div></div>
+  </section>
+
+  <!-- ============ SLIDE 08 — COLLECTION GRID ============ -->
+  <section class="warm" data-screen-label="08 Six pieces">
+    <div class="slide-head"><div class="wm">Aiz<em>ú</em></div><div class="pageno">08 / 12 — As peças</div></div>
+    <div class="body-area">
+      <div style="width:100%;">
+        <h3 class="slide">Seis peças. <em>Três</em> capítulos.</h3>
+        <div class="four-col" style="grid-template-columns: repeat(6, 1fr); gap:18px;">
+          <div>
+            <div class="ph tall" style="background:repeating-linear-gradient(135deg, #1a2c39 0 6px, #15232e 6px 12px);"></div>
+            <p class="caption" style="margin-top:12px; font-size:13px;">I · Profundo</p>
+            <p style="font-family:var(--serif); font-size:26px; margin:4px 0 0;">Atlas</p>
+          </div>
+          <div>
+            <div class="ph tall" style="background:repeating-linear-gradient(135deg, #2a3d4d 0 6px, #243443 6px 12px);"></div>
+            <p class="caption" style="margin-top:12px; font-size:13px;">I · Profundo</p>
+            <p style="font-family:var(--serif); font-size:26px; margin:4px 0 0;">Vaga</p>
+          </div>
+          <div>
+            <div class="ph tall" style="background:repeating-linear-gradient(135deg, #ebe2d2 0 6px, #ddd0b8 6px 12px);"></div>
+            <p class="caption" style="margin-top:12px; font-size:13px;">II · Corrente</p>
+            <p style="font-family:var(--serif); font-size:26px; margin:4px 0 0;">Espuma</p>
+          </div>
+          <div>
+            <div class="ph tall" style="background:repeating-linear-gradient(135deg, #d8c8a4 0 6px, #cab98f 6px 12px);"></div>
+            <p class="caption" style="margin-top:12px; font-size:13px;">II · Corrente</p>
+            <p style="font-family:var(--serif); font-size:26px; margin:4px 0 0;">Farol</p>
+          </div>
+          <div>
+            <div class="ph tall" style="background:repeating-linear-gradient(135deg, #c87650 0 6px, #b96b4a 6px 12px);"></div>
+            <p class="caption" style="margin-top:12px; font-size:13px;">III · Maré</p>
+            <p style="font-family:var(--serif); font-size:26px; margin:4px 0 0;">Lua-Cheia</p>
+          </div>
+          <div>
+            <div class="ph tall" style="background:repeating-linear-gradient(135deg, #a55336 0 6px, #8a4a30 6px 12px);"></div>
+            <p class="caption" style="margin-top:12px; font-size:13px;">III · Maré</p>
+            <p style="font-family:var(--serif); font-size:26px; margin:4px 0 0;">Maresia</p>
+          </div>
+        </div>
+        <p class="body" style="margin-top:48px; max-width:none;">Dois dias na Praia do Carvalho. Uma modelo, uma fotógrafa que fotografa em filme. Hora azul, meio-dia duro, hora dourada, hora azul outra vez. A modelo está mais na água do que fora dela.</p>
+      </div>
+    </div>
+    <div class="slide-foot"><div class="meta">Aizú · SS26 Brief</div><div class="meta">08</div></div>
+  </section>
+
+  <!-- ============ SLIDE 09 — MARKETING PLAN ============ -->
+  <section data-screen-label="09 Marketing plan">
+    <div class="slide-head"><div class="wm">Aiz<em>ú</em></div><div class="pageno">09 / 12 — Plano</div></div>
+    <div class="body-area">
+      <div style="width:100%;">
+        <h3 class="slide">Um plano moderado. <em>Disciplinado</em>.</h3>
+        <div class="cal-deck">
+          <div class="head">Faixa</div>
+          <div class="head">Mai</div><div class="head">Jun</div><div class="head">Jul</div><div class="head">Ago</div><div class="head">Set</div><div class="head">Out</div>
+
+          <div class="row-label">Próprio</div>
+          <div class="a">Shooting</div><div class="a">Lookbook</div><div class="a">Diário</div><div class="a">Meio-verão</div><div class="a">Setembro film</div><div class="a">Arquivo</div>
+
+          <div class="row-label">Pago</div>
+          <div></div><div class="b">Arranque de lançamento</div><div class="b">Always-on</div><div class="b">Always-on</div><div class="b">Retargeting</div><div></div>
+
+          <div class="row-label">Creator</div>
+          <div class="c">Seeding I</div><div class="c">Jantar de imprensa</div><div class="c">Surf creators</div><div class="c">Seeding II</div><div></div><div></div>
+
+          <div class="row-label">CRM</div>
+          <div class="d">Fluxo de boas-vindas</div><div class="d">Revelação do drop</div><div class="d">Cross-sell</div><div class="d">Semente de fidelização</div><div class="d">Win-back</div><div class="d">Sem Black Friday</div>
+
+          <div class="row-label">Retalho / PR</div>
+          <div></div><div class="c">Reconhecimento pop-up</div><div class="c">Semana pop-up</div><div></div><div></div><div></div>
+        </div>
+        <p class="caption" style="margin-top:32px;">Mix de orçamento — Próprio 25 · Social pago 35 · Creator 15 · CRM 5 · PR e eventos 15 · SEO 5</p>
+      </div>
+    </div>
+    <div class="slide-foot"><div class="meta">Aizú · SS26 Brief</div><div class="meta">09</div></div>
+  </section>
+
+  <!-- ============ SLIDE 10 — TARGETS ============ -->
+  <section class="warm" data-screen-label="10 Targets">
+    <div class="slide-head"><div class="wm">Aiz<em>ú</em></div><div class="pageno">10 / 12 — Objetivos</div></div>
+    <div class="body-area">
+      <div style="width:100%;">
+        <h3 class="slide">O que é o <em>sucesso</em>.</h3>
+        <div class="four-col">
+          <div class="stat"><div class="v">+<em>140</em>%</div><div class="l">Receita vs. SS25</div><div class="n">AOV +18% · conversão +60%.</div></div>
+          <div class="stat"><div class="v"><em>2.4</em>%</div><div class="l">Conversão do site</div><div class="n">A partir de uma base estimada de 1,5%.</div></div>
+          <div class="stat"><div class="v"><em>12</em>k</div><div class="l">Subscritores de email</div><div class="n">A partir de um estimado de 3k.</div></div>
+          <div class="stat"><div class="v"><em>30</em>%</div><div class="l">Receita recorrente</div><div class="n">Fidelização iniciada em agosto.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-foot"><div class="meta">Aizú · SS26 Brief</div><div class="meta">10</div></div>
+  </section>
+
+  <!-- ============ SLIDE 11 — THREE DIRECTIONS ============ -->
+  <section data-screen-label="11 Three directions">
+    <div class="slide-head"><div class="wm">Aiz<em>ú</em></div><div class="pageno">11 / 12 — Redesign</div></div>
+    <div class="body-area">
+      <div style="width:100%;">
+        <h3 class="slide">Três direcções para o <em>site</em>.</h3>
+        <div class="dir-grid">
+          <div class="dir-card dir-a">
+            <div>
+              <div class="num">A · Menor risco</div>
+              <h4 style="margin-top:24px;">Maré <em>Calma</em></h4>
+            </div>
+            <div>
+              <p class="desc">A estética atual da Aizú, elevada. Papel branco-sujo, oceano profundo, espaço generoso, tipografia serif.</p>
+              <div class="swatches">
+                <span style="background:#f4ede2;"></span>
+                <span style="background:#15232e;"></span>
+                <span style="background:#c9b89a;"></span>
+                <span style="background:#6a7681;"></span>
+              </div>
+            </div>
+          </div>
+          <div class="dir-card dir-b">
+            <div>
+              <div class="num">B · Calor editorial</div>
+              <h4 style="margin-top:24px;">Sal &amp; <em>Sol</em></h4>
+            </div>
+            <div>
+              <p class="desc">Estilo de revista. Creme mais quente, terracota, tipografia editorial maior, imagens legendadas.</p>
+              <div class="swatches">
+                <span style="background:#ebe2d2;"></span>
+                <span style="background:#3a2618;"></span>
+                <span style="background:#b96b4a;"></span>
+                <span style="background:#8a4a30;"></span>
+              </div>
+            </div>
+          </div>
+          <div class="dir-card dir-c">
+            <div>
+              <div class="num">C · Mais distintivo</div>
+              <h4 style="margin-top:24px;">Mar de <em>Atlas</em></h4>
+            </div>
+            <div>
+              <p class="desc">Criado para o SS26. Azul-marinho profundo, osso, terracota, toques cartográficos. O maior retorno.</p>
+              <div class="swatches">
+                <span style="background:#0e1e2a;"></span>
+                <span style="background:#f4ede2;"></span>
+                <span style="background:#b96b4a;"></span>
+                <span style="background:#c9b89a;"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="caption" style="margin-top:36px;">Todos três incluem os mesmos componentes de conversão — add-to-cart fixo, UGC, avaliações, wishlist, notificação de stock, pop-up de newsletter.</p>
+      </div>
+    </div>
+    <div class="slide-foot"><div class="meta">Aizú · SS26 Brief</div><div class="meta">11</div></div>
+  </section>
+
+  <!-- ============ SLIDE 12 — NEXT ============ -->
+  <section class="dark" data-screen-label="12 What's next">
+    <div class="slide-head"><div class="wm">Aiz<em>ú</em></div><div class="pageno">12 / 12 — Próximos passos</div></div>
+    <div class="body-area">
+      <div style="width:100%;">
+        <div class="two-col">
+          <div>
+            <div class="eyebrow-deck" style="color:#c9b89a;">Decisões nesta sala</div>
+            <h3 class="slide">Escolha uma direcção.<br/>Aprove o <em>shooting</em>.</h3>
+          </div>
+          <div>
+            <ol class="num-list">
+              <li><div><strong>Escolha uma direcção.</strong> Maré Calma, Sal &amp; Sol, ou Mar de Atlas — até sexta-feira.</div></li>
+              <li><div><strong>Confirme o shooting.</strong> Bordeira, dois dias, semana de 11 de maio. Fotógrafa + modelo confirmadas até 16 de maio.</div></li>
+              <li><div><strong>Aprove o calendário.</strong> Lançamento público 29 de maio. Jantar de imprensa 12 de jun. Semana pop-up 3 de jul.</div></li>
+              <li><div><strong>Aprove a reconstrução.</strong> Site ativo a tempo da revelação da newsletter de 27 de maio.</div></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-foot">
+      <div class="meta">Obrigada</div>
+      <svg class="compass-deck" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width=".5">
+        <circle cx="50" cy="50" r="48"/><circle cx="50" cy="50" r="34"/>
+        <path d="M50 6 L52 50 L50 94 L48 50 Z" fill="currentColor" stroke="none" opacity=".7"/>
+        <path d="M6 50 L50 48 L94 50 L50 52 Z" fill="currentColor" stroke="none" opacity=".4"/>
+      </svg>
+      <div class="meta">12 / 12</div>
+    </div>
+  </section>
+
+</deck-stage>
+
+</body>
+</html>

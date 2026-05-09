@@ -1,0 +1,57 @@
+/* ============================================================
+   AIZÚ — shared tokens for working documents (report + deck + index)
+   The website redesign mockups define their own per-direction tokens.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root{
+  /* Paper */
+  --paper:        #f4ede2;
+  --paper-2:      #ebe2d2;
+  --paper-edge:   #ddd1bb;
+
+  /* Ink */
+  --ink:          #15232e;
+  --ink-2:        #2c3b46;
+  --ink-mute:     #6a7681;
+
+  /* Sea */
+  --sea-deep:     #0e1e2a;
+  --sea-mid:      #2a4a5e;
+  --sea-pale:     #b8c8d2;
+
+  /* Sun */
+  --terracotta:   #b96b4a;
+  --terra-deep:   #8a4a30;
+  --sand:         #c9b89a;
+  --shell:        #e9d9c2;
+
+  /* Type */
+  --serif:  "Instrument Serif", "Cormorant Garamond", Georgia, serif;
+  --sans:   "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono:   "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Scale */
+  --max:   1240px;
+  --gutter: 32px;
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; background:var(--paper); color:var(--ink); font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+body{ font-size:16px; line-height:1.55; }
+
+a{ color:inherit; }
+
+.eyebrow{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--ink-mute);
+}
+.rule{ border:0; border-top:1px solid var(--paper-edge); margin:0; }
+.rule-ink{ border:0; border-top:1px solid var(--ink); margin:0; }
+
+.serif-italic{ font-family:var(--serif); font-style:italic; font-weight:400; }
+.serif{ font-family:var(--serif); font-weight:400; }

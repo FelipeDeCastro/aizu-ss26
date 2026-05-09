@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="pt"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Aizú — Sal &amp; Sol · Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--paper:#ebe2d2;--paper-2:#e0d5bf;--edge:#c9b89a;--ink:#3a2618;--ink-2:#5a3e2a;--mute:#8a705a;--terra:#b96b4a;--terra-d:#8a4a30;--sun:#d8a558;--serif:"Instrument Serif",Georgia,serif;--sans:"Hanken Grotesk",sans-serif;--mono:"JetBrains Mono",monospace;}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans)}
+a{color:inherit;text-decoration:none}
+
+/* Editorial masthead */
+.mast{background:var(--ink);color:var(--paper);padding:8px 32px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase}
+.brand-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;padding:32px 32px 18px;border-bottom:2px solid var(--ink)}
+.brand-row .l, .brand-row .r{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+.brand-row .r{text-align:right}
+.brand-row .wm{font-family:var(--serif);font-size:88px;line-height:.85;text-align:center;letter-spacing:-.01em}
+.brand-row .wm em{font-style:italic}
+nav.cols{padding:14px 32px;border-bottom:1px solid var(--ink);display:flex;justify-content:center;gap:48px;font-family:var(--serif);font-size:22px;font-style:italic}
+nav.cols a:hover{color:var(--terra)}
+
+/* Hero spread */
+.spread{display:grid;grid-template-columns:1.3fr 1fr;gap:0;border-bottom:1px solid var(--ink)}
+.spread .l{padding:80px 64px 56px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--ink)}
+.spread .l .iss{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--terra)}
+.spread .l h1{font-family:var(--serif);font-weight:400;font-size:172px;line-height:.88;margin:32px 0;letter-spacing:-.015em}
+.spread .l h1 em{font-style:italic;color:var(--terra)}
+.spread .l .dropcap::first-letter{font-family:var(--serif);font-size:96px;float:left;line-height:.8;padding:8px 12px 0 0;font-style:italic;color:var(--terra)}
+.spread .l p.dek{font-family:var(--serif);font-size:24px;line-height:1.45;max-width:46ch;margin:0;color:var(--ink-2)}
+.spread .l .by{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-top:36px}
+.spread .r{position:relative;background:repeating-linear-gradient(135deg,#c87650 0 8px,#b96b4a 8px 16px);min-height:760px}
+.spread .r::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 60% 30%,rgba(216,165,88,.4),transparent 60%)}
+.spread .r .cap{position:absolute;bottom:24px;left:24px;right:24px;color:var(--paper);font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;display:flex;justify-content:space-between}
+.spread .r .label{position:absolute;top:24px;left:24px;color:var(--paper);font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+
+/* Index strip — like a magazine TOC */
+.toc-strip{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--ink);background:var(--paper-2)}
+.toc-strip .it{padding:28px 24px;border-right:1px solid var(--ink)}
+.toc-strip .it:last-child{border-right:none}
+.toc-strip .it .n{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--terra);margin-bottom:8px}
+.toc-strip .it h4{font-family:var(--serif);font-weight:400;font-size:32px;line-height:1.05;margin:0}
+.toc-strip .it h4 em{font-style:italic}
+.toc-strip .it p{font-size:13px;color:var(--ink-2);margin:8px 0 0;line-height:1.5}
+
+/* Feature spread — left text, right image, captioned */
+.feature{display:grid;grid-template-columns:1fr 1.4fr;gap:64px;padding:96px 64px;border-bottom:1px solid var(--ink)}
+.feature .lab{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--terra)}
+.feature h2{font-family:var(--serif);font-weight:400;font-size:88px;line-height:.95;margin:14px 0 24px;letter-spacing:-.005em}
+.feature h2 em{font-style:italic}
+.feature p{font-family:var(--serif);font-size:21px;line-height:1.55;color:var(--ink-2);margin:0 0 16px;max-width:42ch}
+.feature .pull{font-family:var(--serif);font-style:italic;font-size:32px;line-height:1.25;border-left:3px solid var(--terra);padding-left:18px;margin:32px 0;color:var(--ink)}
+.feature .img-stack{display:grid;grid-template-columns:1.5fr 1fr;grid-template-rows:auto auto;gap:8px;align-content:start}
+.feature .ph{position:relative;overflow:hidden}
+.feature .ph .lbl{position:absolute;bottom:12px;left:12px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(58,38,24,.55)}
+.feature .ph.dark .lbl{color:rgba(235,226,210,.6)}
+.ph.tall{aspect-ratio:3/4}
+.ph.wide{aspect-ratio:4/3}
+.ph.sq{aspect-ratio:1/1}
+.ph.s1{background:repeating-linear-gradient(135deg,#c87650 0 8px,#b96b4a 8px 16px)}
+.ph.s2{background:repeating-linear-gradient(135deg,#d8c8a4 0 8px,#cab98f 8px 16px)}
+.ph.s3{background:repeating-linear-gradient(135deg,#3a4a56 0 8px,#2a3d4d 8px 16px)}
+.ph.s4{background:repeating-linear-gradient(135deg,#a55336 0 8px,#8a4a30 8px 16px)}
+.ph.s5{background:repeating-linear-gradient(135deg,#d8a558 0 8px,#c89548 8px 16px)}
+.cap{padding:8px 0;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);display:flex;justify-content:space-between}
+
+/* Collection strip */
+.coll{padding:96px 32px;border-bottom:1px solid var(--ink);background:var(--paper-2)}
+.coll-h{display:grid;grid-template-columns:auto 1fr auto;gap:32px;align-items:end;padding:0 32px 48px}
+.coll-h h3{font-family:var(--serif);font-weight:400;font-size:96px;margin:0;line-height:.9}
+.coll-h h3 em{font-style:italic;color:var(--terra)}
+.coll-h .meta{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);text-align:right}
+.coll-h .scroll{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.cards-row{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:0 32px}
+.pc{position:relative}
+.pc .img{aspect-ratio:3/4;position:relative;overflow:hidden}
+.pc .img.t1{background:repeating-linear-gradient(135deg,#3a4a56 0 6px,#2a3d4d 6px 12px)}
+.pc .img.t2{background:repeating-linear-gradient(135deg,#d8c8a4 0 6px,#cab98f 6px 12px)}
+.pc .img.t3{background:repeating-linear-gradient(135deg,#c87650 0 6px,#b96b4a 6px 12px)}
+.pc .img.t4{background:repeating-linear-gradient(135deg,#d8a558 0 6px,#c89548 6px 12px)}
+.pc .num{position:absolute;top:14px;left:14px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:rgba(235,226,210,.85)}
+.pc .img.t2 .num,.pc .img.t4 .num{color:rgba(58,38,24,.7)}
+.pc .heart{position:absolute;top:14px;right:14px;width:28px;height:28px;background:var(--paper);display:flex;align-items:center;justify-content:center;border-radius:50%}
+.pc .heart svg{width:13px;height:13px}
+.pc .lbl{position:absolute;bottom:12px;left:12px;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(235,226,210,.6)}
+.pc .img.t2 .lbl,.pc .img.t4 .lbl{color:rgba(58,38,24,.5)}
+.pc .below{padding:14px 4px 0;display:grid;grid-template-columns:1fr auto;align-items:baseline}
+.pc .below .nm{font-family:var(--serif);font-size:26px;line-height:1}
+.pc .below .nm em{font-style:italic}
+.pc .below .pr{font-family:var(--mono);font-size:13px}
+.pc .desc{padding:6px 4px 0;font-size:13px;color:var(--ink-2);font-family:var(--serif);font-style:italic}
+
+/* Column spread (interview) */
+.interview{padding:120px 64px;border-bottom:1px solid var(--ink);columns:2;column-gap:64px;column-rule:1px solid var(--edge)}
+.interview h3{font-family:var(--serif);font-weight:400;font-size:80px;line-height:.9;margin:0 0 24px;column-span:all;letter-spacing:-.01em}
+.interview h3 em{font-style:italic;color:var(--terra)}
+.interview .lab{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--terra);margin-bottom:8px;column-span:all}
+.interview p{font-family:var(--serif);font-size:18px;line-height:1.6;margin:0 0 14px;color:var(--ink)}
+.interview p.first::first-letter{font-family:var(--serif);font-size:72px;float:left;line-height:.85;padding:6px 10px 0 0;font-style:italic;color:var(--terra)}
+.interview .q{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin:18px 0 6px}
+
+/* UGC */
+.ugc{padding:96px 32px;border-bottom:1px solid var(--ink)}
+.ugc-h{display:flex;justify-content:space-between;align-items:end;padding:0 32px 32px}
+.ugc-h h3{font-family:var(--serif);font-weight:400;font-size:56px;margin:0}
+.ugc-h h3 em{font-style:italic}
+.ugc-h .ig{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--terra)}
+.ugc-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:0 32px}
+.ugc-strip .it{aspect-ratio:1/1;position:relative}
+.ugc-strip .it.x1{background:repeating-linear-gradient(135deg,#c9b89a 0 6px,#b9a684 6px 12px)}
+.ugc-strip .it.x2{background:repeating-linear-gradient(135deg,#3a4a56 0 6px,#2a3d4d 6px 12px)}
+.ugc-strip .it.x3{background:repeating-linear-gradient(135deg,#c87650 0 6px,#b96b4a 6px 12px)}
+.ugc-strip .it.x4{background:repeating-linear-gradient(135deg,#d8a558 0 6px,#c89548 6px 12px)}
+.ugc-strip .h{position:absolute;bottom:8px;left:10px;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:rgba(235,226,210,.85)}
+.ugc-strip .x1 .h,.ugc-strip .x4 .h{color:rgba(58,38,24,.7)}
+
+/* Newsletter */
+.news{padding:120px 64px;background:var(--terra);color:var(--paper);display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:center;border-bottom:1px solid var(--ink)}
+.news h2{font-family:var(--serif);font-weight:400;font-size:96px;line-height:.92;margin:0;max-width:11ch}
+.news h2 em{font-style:italic;color:var(--sun)}
+.news .right .lab{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.85;margin-bottom:14px}
+.news .right p{font-family:var(--serif);font-size:24px;line-height:1.4;margin:0 0 28px;max-width:40ch}
+.news .form{display:grid;grid-template-columns:1fr auto;border-bottom:1px solid var(--paper);padding-bottom:14px}
+.news .form input{background:transparent;border:0;color:var(--paper);font-family:var(--sans);font-size:18px;padding:8px 0;outline:none}
+.news .form input::placeholder{color:rgba(235,226,210,.6)}
+.news .form button{background:transparent;border:0;color:var(--paper);font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;padding-left:16px}
+
+/* Footer */
+footer{background:var(--ink);color:var(--paper);padding:64px 32px 24px}
+footer .top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:48px;padding-bottom:48px;border-bottom:1px solid rgba(235,226,210,.2)}
+footer .logo{font-family:var(--serif);font-size:64px;line-height:.9}
+footer .logo em{font-style:italic;color:var(--terra)}
+footer h5{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(235,226,210,.55);margin:0 0 14px}
+footer ul{list-style:none;padding:0;margin:0}
+footer li{padding:6px 0;font-size:14px;font-family:var(--serif);font-size:18px}
+footer .bottom{display:flex;justify-content:space-between;padding-top:24px;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.55}
+</style></head>
+<body>
+
+<div class="mast"><span>Issue Nº 06 · Verão 2026</span><span>Lisboa · Comporta · Bordeira</span><span>PT EUR · Conta · Carrinho 0</span></div>
+
+<header class="brand-row">
+  <div class="l">Issue 06 · Maio 2026</div>
+  <div class="wm">Aiz<em>ú</em></div>
+  <div class="r">€ EUR · Devoluções 30d</div>
+</header>
+
+<nav class="cols">
+  <a><em>Loja</em></a><a><em>Mar de Atlas</em></a><a><em>Diário</em></a><a><em>Nossa história</em></a><a><em>Pesquisar</em></a>
+</nav>
+
+<section class="spread">
+  <div class="l">
+    <div class="iss">Capa · SS26 Capítulo I</div>
+    <div>
+      <h1>Mar de<br/><em>Atlas</em>.</h1>
+      <p class="dek dropcap">O Atlântico tem nome de Titã. Crescemos a olhar para ele em Cascais e em Comporta, e fazemos roupa para o entrar. Esta é a coleção mais pessoal que já fizemos — seis peças, três capítulos, um único oceano.</p>
+    </div>
+    <div class="by">Texto Catarina M. · Fotografia Joana Linda · Bordeira, Maio 2026</div>
+  </div>
+  <div class="r">
+    <div class="label">Cover · 35mm film</div>
+    <div class="cap"><span>Lua-Cheia · em terracota</span><span>Frame 01 / 24</span></div>
+  </div>
+</section>
+
+<section class="toc-strip">
+  <div class="it"><div class="n">Pp. 02–08</div><h4>Sobre o <em>Titã</em></h4><p>Carta da fundadora — e por que um oceano se chama assim.</p></div>
+  <div class="it"><div class="n">Pp. 10–22</div><h4>As seis <em>peças</em></h4><p>Profundo, Corrente, Maré. O que está em cada uma e como vesti-las.</p></div>
+  <div class="it"><div class="n">Pp. 24–32</div><h4>O <em>lookbook</em></h4><p>Vinte frames, dois dias na Costa Vicentina, uma única modelo.</p></div>
+  <div class="it"><div class="n">Pp. 34–40</div><h4>Sobre <em>fits</em></h4><p>Notas de tamanho, materiais, e como cuidar da peça por cinco verões.</p></div>
+</section>
+
+<section class="feature">
+  <div>
+    <div class="lab">Capítulo I · Profundo</div>
+    <h2>O azul que <em>vem</em> de baixo.</h2>
+    <p>Duas peças no azul mais escuro do oceano — o que se vê do barco, ao amanhecer, antes de o sol pintar a água. Atlas é o fato; Vaga é o biquíni de cintura alta.</p>
+    <div class="pull">"Era o azul de que eu tinha saudades. Não havia em mais lado nenhum."</div>
+    <p>Tecido italiano reciclado em ECONYL®, fabricado em Barcelos. Acabamento fosco. Costas baixas em Atlas, alça simples em Vaga.</p>
+    <div class="by" style="font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--mute); margin-top:24px;">Continua na p. 12 →</div>
+  </div>
+  <div class="img-stack">
+    <div>
+      <div class="ph tall s3 dark"><span class="lbl">Atlas · still front · 35mm</span></div>
+      <div class="cap"><span>Fig. 01 — Atlas</span><span>€118</span></div>
+    </div>
+    <div>
+      <div class="ph sq s4 dark"><span class="lbl">Lua-Cheia · detail</span></div>
+      <div class="cap"><span>Fig. 02 — Lua-Cheia</span><span>€118</span></div>
+      <div style="height:8px"></div>
+      <div class="ph sq s2"><span class="lbl">Espuma · still bone</span></div>
+      <div class="cap"><span>Fig. 03 — Espuma</span><span>€98</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="coll">
+  <div class="coll-h">
+    <div>
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--terra);">Pp. 10–11 · Index</div>
+      <h3>As seis <em>peças</em>.</h3>
+    </div>
+    <div></div>
+    <div class="meta">Ver todas as 6 →</div>
+  </div>
+  <div class="cards-row">
+    <a class="pc">
+      <div class="img t1"><span class="num">01</span><span class="heart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9z"/></svg></span><span class="lbl">Atlas · in-water</span></div>
+      <div class="below"><span class="nm"><em>Atlas</em></span><span class="pr">€118</span></div>
+      <div class="desc">fato · azul-titã · costas baixas</div>
+    </a>
+    <a class="pc">
+      <div class="img t2"><span class="num">02</span><span class="heart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9z"/></svg></span><span class="lbl">Espuma · still</span></div>
+      <div class="below"><span class="nm"><em>Espuma</em></span><span class="pr">€98</span></div>
+      <div class="desc">biquíni · areia · halter</div>
+    </a>
+    <a class="pc">
+      <div class="img t3"><span class="num">03</span><span class="heart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9z"/></svg></span><span class="lbl">Lua-Cheia · cliffs</span></div>
+      <div class="below"><span class="nm"><em>Lua-Cheia</em></span><span class="pr">€118</span></div>
+      <div class="desc">fato · terracota · cintura</div>
+    </a>
+    <a class="pc">
+      <div class="img t4"><span class="num">04</span><span class="heart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9z"/></svg></span><span class="lbl">Farol · golden hour</span></div>
+      <div class="below"><span class="nm"><em>Farol</em></span><span class="pr">€108</span></div>
+      <div class="desc">biquíni · sol · triangulo</div>
+    </a>
+  </div>
+</section>
+
+<section class="interview">
+  <div class="lab">Conversa · Pp. 28–31</div>
+  <h3>"Faço roupa para o mar que <em>conheço</em>."</h3>
+  <p class="first">A Catarina cresceu na Linha. O pai levava-a a Carcavelos antes da escola, e foi nesse intervalo entre o sono e o dia que aprendeu o que era uma boa onda. Hoje, dezasseis anos depois, faz fatos de banho com nomes de fenómenos do oceano. Falámos com ela na sua casa em Cascais.</p>
+  <p class="q">Porquê Atlas, e porquê agora?</p>
+  <p>"O Atlântico foi sempre o pano de fundo, mas nunca era o assunto. Esta colecção é a primeira em que o oceano é a personagem. Atlas é o nome do Titã que segura o mundo — e segura também o nome do nosso mar. Pareceu-me óbvio."</p>
+  <p class="q">As peças mudaram em relação à Amanhecer?</p>
+  <p>"Mudaram os tecidos — passámos a um italiano reciclado mais firme, que aguenta uma duck-dive sem ceder. E mudaram as cores: deixámos o pastel para ir buscar o azul do mar a sério, o branco da areia molhada, o terracota das falésias da Vicentina ao fim da tarde."</p>
+  <p class="q">O que vai surpreender quem conhece a Aizú?</p>
+  <p>"O lookbook. Filmámos dois dias inteiros em Bordeira, em filme, com a Joana Linda. Vai parecer um curta-metragem, não uma campanha. É a coisa de que tenho mais orgulho.</p>
+</section>
+
+<section class="ugc">
+  <div class="ugc-h">
+    <div><div style="font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--terra);">Cartas das leitoras · @aizu.swim</div><h3>Levaram para o <em>mar</em>.</h3></div>
+    <div class="ig">14.2k seguidores  →</div>
+  </div>
+  <div class="ugc-strip">
+    <div class="it x2"><span class="h">@maria.lobo</span></div>
+    <div class="it x1"><span class="h">@joana.couto</span></div>
+    <div class="it x3"><span class="h">@ines.surf</span></div>
+    <div class="it x4"><span class="h">@catarina.m</span></div>
+    <div class="it x2"><span class="h">@beatriz.pl</span></div>
+    <div class="it x3"><span class="h">@martamf</span></div>
+  </div>
+</section>
+
+<section class="news">
+  <h2>Cartas para a sua <em>caixa</em>.</h2>
+  <div class="right">
+    <div class="lab">A Newsletter — quinzenal</div>
+    <p>Acesso antecipado, notas da Catarina, e o mar visto da janela. Os primeiros 500 subscritores têm o nome nos créditos do filme Mar de Atlas.</p>
+    <div class="form">
+      <input type="email" placeholder="o.seu.email"/><button>Subscrever →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="top">
+    <div>
+      <div class="logo">Aiz<em>ú</em></div>
+      <p style="font-family:var(--serif); font-style:italic; font-size:20px; max-width:36ch; margin:18px 0 0; opacity:.85;">Issue 06 · Verão 2026 · Editado em Lisboa.</p>
+    </div>
+    <div><h5>Loja</h5><ul><li>Mar de Atlas</li><li>Calmaria</li><li>Amanhecer</li><li>Arquivo</li></ul></div>
+    <div><h5>Ajuda</h5><ul><li>Tamanhos</li><li>Cuidados</li><li>Envios</li><li>Devoluções</li></ul></div>
+    <div><h5>Sobre</h5><ul><li>Nossa história</li><li>Diário</li><li>Imprensa</li></ul></div>
+    <div><h5>Seguir</h5><ul><li>Instagram</li><li>Pinterest</li><li>Spotify</li></ul></div>
+  </div>
+  <div class="bottom"><span>© 2026 Aizú</span><span>Issue 06 · Maio 2026</span><span>38°42′N · 9°08′W</span></div>
+</footer>
+
+</body></html>

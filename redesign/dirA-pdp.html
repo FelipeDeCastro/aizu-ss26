@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="pt"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Aizú — Maré Calma · PDP</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--paper:#f4ede2;--paper-2:#ebe2d2;--edge:#ddd1bb;--ink:#15232e;--ink-2:#2c3b46;--mute:#6a7681;--terra:#b96b4a;--sand:#c9b89a;--serif:"Instrument Serif",Georgia,serif;--sans:"Hanken Grotesk",sans-serif;--mono:"JetBrains Mono",monospace;}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.mono{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.topbar{background:var(--ink);color:var(--paper);padding:9px 32px;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;display:flex;justify-content:space-between}
+nav.main{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:22px 32px;border-bottom:1px solid var(--edge)}
+nav.main .left,nav.main .right{display:flex;gap:28px;font-size:14px}
+nav.main .right{justify-content:flex-end}
+nav.main .logo{font-family:var(--serif);font-size:36px;text-align:center}
+nav.main .logo em{font-style:italic}
+.crumbs{padding:18px 32px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.crumbs span{margin:0 8px}
+
+.pdp{display:grid;grid-template-columns:1.5fr 1fr;gap:64px;padding:8px 32px 96px;align-items:start}
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gallery .g{position:relative;overflow:hidden}
+.gallery .g.tall{aspect-ratio:3/4}
+.gallery .g.s1{background:repeating-linear-gradient(135deg,#1d2f3c 0 8px,#15232e 8px 16px)}
+.gallery .g.s2{background:repeating-linear-gradient(135deg,#3a4a56 0 8px,#2a3d4d 8px 16px)}
+.gallery .g.s3{background:repeating-linear-gradient(135deg,#4a6878 0 8px,#3a5566 8px 16px)}
+.gallery .g.s4{background:repeating-linear-gradient(135deg,#1a2c39 0 8px,#15232e 8px 16px)}
+.gallery .g .lbl{position:absolute;bottom:14px;left:14px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,237,226,.55)}
+.gallery .span2{grid-column:span 2;aspect-ratio:16/9}
+
+.info{position:sticky;top:24px}
+.info .lab{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--terra);margin-bottom:14px}
+.info h1{font-family:var(--serif);font-weight:400;font-size:88px;line-height:.95;margin:0 0 14px;letter-spacing:-.005em}
+.info h1 em{font-style:italic}
+.info .price-row{display:flex;align-items:baseline;justify-content:space-between;padding:18px 0;border-top:1px solid var(--edge);border-bottom:1px solid var(--edge);margin-bottom:24px}
+.info .price{font-family:var(--serif);font-size:32px}
+.info .reviews{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.info .reviews .stars{color:var(--ink);letter-spacing:0;font-size:13px;margin-right:8px}
+.info p.intro{font-family:var(--serif);font-size:21px;line-height:1.5;margin:0 0 28px;color:var(--ink-2)}
+
+.option{margin-bottom:22px}
+.option .head{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
+.option .head a{color:var(--mute);text-decoration:underline;text-underline-offset:3px}
+.option .swatches{display:flex;gap:10px}
+.option .swatches .sw{width:34px;height:34px;border:1px solid var(--edge);border-radius:50%;cursor:pointer;position:relative}
+.option .swatches .sw.sel{outline:1px solid var(--ink);outline-offset:3px}
+.option .sizes{display:flex;gap:6px}
+.option .sizes .sz{flex:1;padding:14px 0;text-align:center;border:1px solid var(--edge);font-size:14px;cursor:pointer;position:relative}
+.option .sizes .sz.sel{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.option .sizes .sz.low{color:var(--terra)}
+.option .sizes .sz.low::after{content:"";position:absolute;top:6px;right:6px;width:6px;height:6px;background:var(--terra);border-radius:50%}
+
+.lowstock{display:flex;gap:10px;align-items:center;padding:12px 14px;background:var(--paper-2);border:1px solid var(--edge);font-size:13px;margin-bottom:18px}
+.lowstock .dot{width:8px;height:8px;background:var(--terra);border-radius:50%}
+
+.atc-row{display:grid;grid-template-columns:1fr 56px;gap:8px;margin-bottom:18px}
+.atc{padding:18px 0;background:var(--ink);color:var(--paper);border:0;font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer}
+.wishbtn{background:var(--paper);border:1px solid var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.wishbtn svg{width:18px;height:18px}
+
+.notes{border-top:1px solid var(--edge);padding-top:24px;margin-top:8px}
+.notes .grp{padding:14px 0;border-bottom:1px solid var(--edge);display:grid;grid-template-columns:120px 1fr;gap:16px;font-size:14px}
+.notes .grp .k{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);padding-top:2px}
+.notes .grp .v{line-height:1.55}
+.notes .grp .v em{font-style:italic;color:var(--terra)}
+
+/* Reviews */
+.reviews-sec{padding:96px 32px;border-top:1px solid var(--edge);background:var(--paper-2)}
+.reviews-sec .h{display:grid;grid-template-columns:1fr auto;align-items:end;margin-bottom:48px}
+.reviews-sec h3{font-family:var(--serif);font-weight:400;font-size:56px;margin:6px 0 0}
+.reviews-sec h3 em{font-style:italic}
+.reviews-sec .agg{display:flex;gap:48px;align-items:center}
+.reviews-sec .agg .num{font-family:var(--serif);font-size:64px;line-height:1}
+.reviews-sec .agg .meta{font-size:13px;color:var(--ink-2)}
+.reviews-sec .fitbar{margin-top:8px;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.reviews-sec .fitbar .bar{flex:1;height:4px;background:var(--edge);position:relative}
+.reviews-sec .fitbar .bar::after{content:"";position:absolute;left:50%;top:-3px;width:2px;height:10px;background:var(--ink)}
+.review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.rv{background:var(--paper);padding:24px;border:1px solid var(--edge)}
+.rv .stars{font-size:14px}
+.rv .photo{aspect-ratio:1/1;background:repeating-linear-gradient(135deg,#c9b89a 0 6px,#b9a684 6px 12px);margin:14px 0}
+.rv .photo.alt{background:repeating-linear-gradient(135deg,#4a6878 0 6px,#3a5566 6px 12px)}
+.rv .photo.alt2{background:repeating-linear-gradient(135deg,#d99d80 0 6px,#c98865 6px 12px)}
+.rv h5{font-family:var(--serif);font-size:22px;margin:8px 0 6px;font-weight:400}
+.rv h5 em{font-style:italic}
+.rv p{font-size:14px;line-height:1.55;margin:0 0 10px;color:var(--ink-2)}
+.rv .by{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.rv .fit{display:grid;grid-template-columns:1fr 1fr;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);padding-top:10px;border-top:1px solid var(--edge);margin-top:10px}
+
+/* Related */
+.related{padding:96px 32px}
+.related h3{font-family:var(--serif);font-weight:400;font-size:48px;margin:0 0 32px}
+.related h3 em{font-style:italic}
+.r-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.r-grid .c{position:relative}
+.r-grid .c .img{aspect-ratio:3/4;background:repeating-linear-gradient(135deg,#d8cdb6 0 6px,#cfc3a8 6px 12px)}
+.r-grid .c .img.deep{background:repeating-linear-gradient(135deg,#1d2f3c 0 6px,#15232e 6px 12px)}
+.r-grid .c .img.terra{background:repeating-linear-gradient(135deg,#c87650 0 6px,#b96b4a 6px 12px)}
+.r-grid .c .img.warm{background:repeating-linear-gradient(135deg,#d8c8a4 0 6px,#cab98f 6px 12px)}
+.r-grid .meta{display:flex;justify-content:space-between;padding:12px 4px 0;font-family:var(--serif);font-size:20px}
+.r-grid .meta em{font-style:italic}
+.r-grid .meta .p{font-family:var(--mono);font-size:12px;color:var(--mute)}
+
+/* Sticky bottom (mobile mock as desktop demo) */
+.sticky-atc{position:sticky;bottom:0;background:rgba(244,237,226,.95);backdrop-filter:blur(12px);border-top:1px solid var(--edge);padding:14px 32px;display:grid;grid-template-columns:auto 1fr auto auto;gap:24px;align-items:center}
+.sticky-atc .t{font-family:var(--serif);font-size:24px}
+.sticky-atc .t em{font-style:italic}
+.sticky-atc .p{font-family:var(--mono);font-size:13px;color:var(--mute)}
+.sticky-atc .sz-mini{display:flex;gap:4px}
+.sticky-atc .sz-mini span{padding:6px 12px;border:1px solid var(--edge);font-size:13px}
+.sticky-atc .sz-mini span.sel{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.sticky-atc .ab{padding:14px 28px;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;border:0}
+
+footer{background:var(--ink);color:var(--paper);padding:48px 32px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;opacity:.92}
+</style></head>
+<body>
+
+<div class="topbar">
+  <span>Envios para toda a Europa · Devoluções 30 dias</span>
+  <span>PT  ·  EUR €  ·  Conta</span>
+</div>
+<nav class="main">
+  <div class="left"><a>Loja</a><a>Mar de Atlas</a><a>Diário</a><a>Nossa história</a></div>
+  <div class="logo">Aiz<em>ú</em></div>
+  <div class="right"><a>Pesquisar</a><a>Lista (2)</a><a>Carrinho · 1</a></div>
+</nav>
+<div class="crumbs">Loja <span>·</span> Mar de Atlas <span>·</span> Profundo <span>·</span> Atlas</div>
+
+<section class="pdp">
+  <div class="gallery">
+    <div class="g tall s1"><span class="lbl">01 · Atlas · still front</span></div>
+    <div class="g tall s2"><span class="lbl">02 · on-body · 173cm M</span></div>
+    <div class="g tall s3"><span class="lbl">03 · in-water · Bordeira</span></div>
+    <div class="g tall s4"><span class="lbl">04 · back detail</span></div>
+    <div class="g span2 s2"><span class="lbl">05 · editorial · golden hour</span></div>
+  </div>
+
+  <div class="info">
+    <div class="lab">Mar de Atlas · Capítulo I · Profundo</div>
+    <h1><em>Atlas</em></h1>
+    <div class="price-row">
+      <span class="price">€118</span>
+      <span class="reviews"><span class="stars">★★★★★</span>4.8 · 127 avaliações</span>
+    </div>
+
+    <p class="intro">Fato de banho de costas baixas em tecido reciclado italiano. Cor azul-titã, profunda como o Atlântico ao amanhecer. Concebido para entrar na água — não para a olhar.</p>
+
+    <div class="option">
+      <div class="head"><span>Cor — Atlas (azul profundo)</span></div>
+      <div class="swatches">
+        <span class="sw sel" style="background:#15232e"></span>
+        <span class="sw" style="background:#3a4a56"></span>
+      </div>
+    </div>
+
+    <div class="option">
+      <div class="head"><span>Tamanho</span><a>Guia de tamanhos · O meu fit</a></div>
+      <div class="sizes">
+        <span class="sz">XS</span>
+        <span class="sz sel">S</span>
+        <span class="sz low">M</span>
+        <span class="sz">L</span>
+        <span class="sz low">XL</span>
+      </div>
+    </div>
+
+    <div class="lowstock"><span class="dot"></span><span><strong>Apenas 2 em stock</strong> no tamanho M · <a style="text-decoration:underline">Avise-me</a> quando voltar</span></div>
+
+    <div class="atc-row">
+      <button class="atc">Adicionar ao carrinho — €118</button>
+      <button class="wishbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9z"/></svg></button>
+    </div>
+
+    <div class="notes">
+      <div class="grp"><span class="k">Fit</span><span class="v">A modelo veste S e mede 173cm. <em>Veste justo</em> — sobe meio tamanho se preferir mais folgado.</span></div>
+      <div class="grp"><span class="k">Material</span><span class="v">78% poliamida reciclada (ECONYL®) · 22% elastano. Tecido italiano, fabricado em Barcelos.</span></div>
+      <div class="grp"><span class="k">Cuidados</span><span class="v">Lavagem à mão em água fria. Secagem ao ar, fora do sol direto.</span></div>
+      <div class="grp"><span class="k">Envio</span><span class="v">Grátis para Portugal continental. Recebe em 2–3 dias úteis.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="reviews-sec">
+  <div class="h">
+    <div>
+      <div class="mono">Avaliações verificadas</div>
+      <h3>O que <em>elas</em> dizem.</h3>
+    </div>
+    <div class="agg">
+      <div><div class="num">4.8</div><div class="meta">★★★★★ · 127 avaliações</div></div>
+      <div style="min-width:240px;">
+        <div class="meta">Fit · maioria diz "fiel ao tamanho"</div>
+        <div class="fitbar"><span>Pequeno</span><div class="bar"></div><span>Grande</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="review-grid">
+    <div class="rv">
+      <div class="stars">★★★★★</div>
+      <div class="photo"></div>
+      <h5><em>"</em>Vesti-o no Carvalho durante uma semana inteira."</h5>
+      <p>Aguentou sol, água salgada, areia. Continua igual. Comprei o Vaga a seguir.</p>
+      <div class="by">Maria L. · Lisboa · S</div>
+      <div class="fit"><span>Fit · Fiel</span><span>Tecido · Excelente</span></div>
+    </div>
+    <div class="rv">
+      <div class="stars">★★★★★</div>
+      <div class="photo alt"></div>
+      <h5><em>"</em>O melhor que tenho para surfar."</h5>
+      <p>Não sai do lugar nas duck-dives. E não parece roupa de desporto.</p>
+      <div class="by">Sofia M. · Ericeira · M</div>
+      <div class="fit"><span>Fit · Fiel</span><span>Tecido · Excelente</span></div>
+    </div>
+    <div class="rv">
+      <div class="stars">★★★★☆</div>
+      <div class="photo alt2"></div>
+      <h5><em>"</em>Custou-me a escolher o tamanho."</h5>
+      <p>Acabei por ficar com o S e está perfeito. A fundadora respondeu-me por email em 2h.</p>
+      <div class="by">Beatriz P. · Porto · S</div>
+      <div class="fit"><span>Fit · Sobe meio</span><span>Tecido · Bom</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="related">
+  <h3>Combina <em>com</em>.</h3>
+  <div class="r-grid">
+    <div class="c"><div class="img deep"></div><div class="meta"><span>Vaga</span><span class="p">€105</span></div></div>
+    <div class="c"><div class="img warm"></div><div class="meta"><span><em>Espuma</em></span><span class="p">€98</span></div></div>
+    <div class="c"><div class="img terra"></div><div class="meta"><span>Lua-Cheia</span><span class="p">€118</span></div></div>
+    <div class="c"><div class="img"></div><div class="meta"><span><em>Farol</em></span><span class="p">€108</span></div></div>
+  </div>
+</section>
+
+<div class="sticky-atc">
+  <div><div class="t"><em>Atlas</em></div><div class="p">Azul-titã · Tam. S</div></div>
+  <div class="sz-mini"><span>XS</span><span class="sel">S</span><span>M</span><span>L</span><span>XL</span></div>
+  <div class="p">€118</div>
+  <button class="ab">Adicionar ao carrinho →</button>
+</div>
+
+<footer>
+  <span>© 2026 Aizú · Lisboa</span>
+  <span>38°42′N · 9°08′W</span>
+  <span>Instagram · Diário · Contacto</span>
+</footer>
+
+</body></html>

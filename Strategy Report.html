@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Aizú — Relatório de Estratégia e Marketing</title>
+<link rel="stylesheet" href="tokens.css" />
+<style>
+  body{ background:var(--paper); }
+  .doc{ max-width: 980px; margin:0 auto; padding: 56px var(--gutter) 120px; }
+
+  /* Top masthead */
+  .masthead{ display:grid; grid-template-columns: 1fr auto; gap:24px; padding-bottom:20px; border-bottom:1px solid var(--ink); align-items:end; }
+  .masthead .wm{ font-family:var(--serif); font-size:42px; line-height:.9; }
+  .masthead .wm em{ font-style:italic; }
+  .masthead .meta{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-mute); text-align:right; }
+
+  /* Title block */
+  .title-block{ padding: 56px 0 64px; border-bottom:1px solid var(--paper-edge); }
+  .title-block .eyebrow{ margin-bottom:18px; }
+  .title-block h1{ font-family:var(--serif); font-weight:400; font-size: clamp(56px, 8vw, 112px); line-height:.95; letter-spacing:-.012em; margin:0 0 24px; text-wrap:balance; }
+  .title-block h1 em{ font-style:italic; }
+  .title-block .lede{ font-family:var(--serif); font-size: clamp(22px, 2.4vw, 30px); line-height:1.35; max-width: 56ch; color:var(--ink-2); }
+  .title-block .byline{ display:flex; gap:48px; padding-top:36px; flex-wrap:wrap; }
+  .title-block .byline > div{ }
+  .title-block .byline .lbl{ font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-mute); margin-bottom:6px; }
+  .title-block .byline .val{ font-family:var(--serif); font-size:18px; }
+
+  /* TOC */
+  .toc{ display:grid; grid-template-columns: repeat(2, 1fr); gap:0 48px; padding:32px 0; border-bottom:1px solid var(--paper-edge); }
+  .toc h4{ font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-mute); margin:0 0 12px; }
+  .toc ol{ list-style:none; padding:0; margin:0; }
+  .toc li{ display:grid; grid-template-columns: 32px 1fr auto; gap:12px; padding:8px 0; border-bottom:1px dotted var(--paper-edge); font-size:14.5px; }
+  .toc li a{ text-decoration:none; }
+  .toc li a:hover{ font-style:italic; }
+  .toc li .n{ font-family:var(--mono); font-size:11px; color:var(--ink-mute); padding-top:2px; }
+  .toc li .pg{ font-family:var(--mono); font-size:11px; color:var(--ink-mute); padding-top:2px; }
+
+  /* Sections */
+  section.chap{ padding: 72px 0 24px; border-bottom:1px solid var(--paper-edge); }
+  section.chap > .chead{ display:grid; grid-template-columns: 88px 1fr; gap:24px; align-items:start; margin-bottom:32px; }
+  section.chap .chnum{ font-family:var(--mono); font-size:12px; letter-spacing:.16em; color:var(--terracotta); padding-top:10px; }
+  section.chap h2{ font-family:var(--serif); font-weight:400; font-size: clamp(38px, 5vw, 64px); line-height:1; letter-spacing:-.01em; margin:0; }
+  section.chap h2 em{ font-style:italic; }
+  section.chap .csub{ font-family:var(--serif); font-size:22px; color:var(--ink-2); font-style:italic; margin-top:14px; max-width:60ch; }
+
+  .body-grid{ display:grid; grid-template-columns: 88px 1fr; gap:24px; }
+  .body-grid > .marg{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-mute); padding-top:6px; }
+  .body-grid > .col{ }
+  .col p{ font-size:16px; line-height:1.7; color:var(--ink); margin: 0 0 18px; max-width: 64ch; }
+  .col p.lead{ font-family:var(--serif); font-size: 22px; line-height:1.5; color:var(--ink); }
+  .col h3{ font-family:var(--serif); font-weight:400; font-size:28px; line-height:1.15; margin: 36px 0 14px; }
+  .col h3 em{ font-style:italic; }
+  .col h4{ font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-mute); margin:24px 0 10px; }
+
+  blockquote{
+    margin: 28px 0;
+    padding: 0 0 0 24px;
+    border-left: 2px solid var(--terracotta);
+    font-family:var(--serif); font-style:italic; font-size:22px; line-height:1.45;
+    max-width:54ch;
+  }
+  blockquote .src{ display:block; font-family:var(--mono); font-style:normal; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-mute); margin-top:10px; }
+
+  /* Pull-quote / callout box */
+  .callout{ background:var(--paper-2); border:1px solid var(--paper-edge); padding:22px 24px; margin:24px 0; }
+  .callout .label{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--terracotta); margin-bottom:8px; }
+  .callout p{ margin:0; max-width:none; }
+
+  /* Two-column compare */
+  .compare{ display:grid; grid-template-columns: 1fr 1fr; gap:0; margin:24px 0; border:1px solid var(--paper-edge); }
+  .compare > div{ padding:20px 22px; }
+  .compare > div + div{ border-left:1px solid var(--paper-edge); }
+  .compare h5{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-mute); margin:0 0 10px; }
+  .compare p{ margin:0; font-size:14.5px; }
+
+  /* Audit table */
+  table.audit{ width:100%; border-collapse:collapse; margin: 18px 0 24px; font-size:14.5px; }
+  table.audit th, table.audit td{ text-align:left; padding:14px 8px; border-bottom:1px solid var(--paper-edge); vertical-align:top; }
+  table.audit th{ font-family:var(--mono); font-weight:500; font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-mute); border-bottom:1px solid var(--ink); }
+  table.audit td .verdict{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; padding:3px 8px; display:inline-block; }
+  .v-good{ background:#d8e0d3; color:#2e3e26; }
+  .v-mid { background:#ebe2d2; color:#7a5b32; }
+  .v-bad { background:#e7c8b8; color:#7a3920; }
+
+  /* Competitor cards */
+  .competitor-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap:16px; margin:18px 0 8px; }
+  .comp{ border:1px solid var(--paper-edge); padding:18px 20px; background:#fbf7ef; }
+  .comp .name{ font-family:var(--serif); font-size:24px; line-height:1; margin-bottom:4px; }
+  .comp .name em{ font-style:italic; }
+  .comp .tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--terracotta); margin-bottom:10px; display:block; }
+  .comp p{ margin:0 0 10px; font-size:13.5px; line-height:1.5; }
+  .comp .stats{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+  .comp .pill{ font-family:var(--mono); font-size:10px; letter-spacing:.1em; padding:3px 7px; border:1px solid var(--paper-edge); color:var(--ink-mute); }
+
+  /* Positioning map */
+  .map{ position:relative; aspect-ratio: 1.4 / 1; background:#fbf7ef; border:1px solid var(--paper-edge); margin: 24px 0 8px; }
+  .map .axis{ position:absolute; background:var(--ink); }
+  .map .axis.h{ left:0; right:0; top:50%; height:1px; }
+  .map .axis.v{ top:0; bottom:0; left:50%; width:1px; }
+  .map .lbl{ position:absolute; font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-mute); }
+  .map .lbl.t{ top:14px; left:50%; transform:translateX(-50%); }
+  .map .lbl.b{ bottom:14px; left:50%; transform:translateX(-50%); }
+  .map .lbl.l{ left:14px; top:50%; transform:translateY(-50%) rotate(-90deg); transform-origin:left center; }
+  .map .lbl.r{ right:14px; top:50%; transform:translateY(-50%) rotate(-90deg); transform-origin:right center; }
+  .map .pt{ position:absolute; transform:translate(-50%, -50%); font-family:var(--serif); font-size:14px; }
+  .map .pt::before{ content:""; display:inline-block; width:8px; height:8px; background:var(--ink); border-radius:50%; margin-right:6px; vertical-align:middle; }
+  .map .pt.us::before{ background:var(--terracotta); width:14px; height:14px; }
+  .map .pt.us{ font-style:italic; font-size:18px; }
+
+  /* Calendar */
+  .cal{ display:grid; grid-template-columns: 120px repeat(6, 1fr); border:1px solid var(--paper-edge); margin: 24px 0 12px; font-size:13px; }
+  .cal > div{ padding:12px 10px; border-bottom:1px solid var(--paper-edge); border-right:1px solid var(--paper-edge); }
+  .cal > div:last-child{ border-right:none; }
+  .cal .head{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-mute); background:var(--paper-2); }
+  .cal .row-label{ font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-mute); background:var(--paper-2); }
+  .cal .a{ background:#dfe6d9; }
+  .cal .b{ background:#ebe2d2; }
+  .cal .c{ background:#e7c8b8; }
+  .cal .d{ background:#cdd8df; }
+
+  /* KPIs */
+  .kpis{ display:grid; grid-template-columns: repeat(4, 1fr); gap:16px; margin:18px 0; }
+  .kpi{ border:1px solid var(--paper-edge); padding:18px 18px 22px; background:#fbf7ef; }
+  .kpi .v{ font-family:var(--serif); font-size:42px; line-height:1; }
+  .kpi .v em{ font-style:italic; }
+  .kpi .l{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-mute); margin-top:8px; }
+  .kpi .n{ font-size:12.5px; color:var(--ink-2); margin-top:6px; line-height:1.45; }
+
+  /* Channel mix */
+  .channels{ display:grid; grid-template-columns: 1.4fr repeat(4, 1fr); border:1px solid var(--paper-edge); margin:18px 0; font-size:13.5px; }
+  .channels > div{ padding:14px; border-bottom:1px solid var(--paper-edge); border-right:1px solid var(--paper-edge); }
+  .channels > div:nth-child(5n){ border-right:none; }
+  .channels .head{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-mute); background:var(--paper-2); }
+  .channels .name{ font-family:var(--serif); font-size:18px; }
+  .channels .name em{ font-style:italic; }
+
+  /* End cap */
+  .endcap{ padding:48px 0 0; display:flex; justify-content:space-between; align-items:flex-end; gap:24px; }
+  .endcap .meta{ font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-mute); }
+
+  /* Print friendliness */
+  @media print{
+    body{ background:#fff; }
+    section.chap{ break-inside:avoid; }
+  }
+
+  @media (max-width: 760px){
+    .body-grid{ grid-template-columns: 1fr; }
+    .body-grid > .marg{ display:none; }
+    .toc, .competitor-grid, .compare, .kpis{ grid-template-columns: 1fr; }
+    .cal, .channels{ font-size:11px; }
+  }
+
+  /* In-text small caps style for nav back */
+  .topnav{ position:sticky; top:0; backdrop-filter: blur(10px); background:rgba(244,237,226,.85); border-bottom:1px solid var(--paper-edge); padding:10px var(--gutter); z-index:10; display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; }
+  .topnav a{ text-decoration:none; }
+  .topnav a:hover{ font-style:italic; }
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <a href="index.html">← Sala de Trabalho</a>
+  <span>Aizú · Relatório de Estratégia &amp; Marketing · 01/03</span>
+  <a href="Stakeholder%20Deck.html">Deck →</a>
+</div>
+
+<div class="doc">
+
+  <header class="masthead">
+    <div class="wm">Aiz<em>ú</em></div>
+    <div class="meta">
+      Relatório de Estratégia &amp; Marketing<br/>
+      Maio 2026 · v1 · Interno
+    </div>
+  </header>
+
+  <div class="title-block">
+    <div class="eyebrow">Detalhe de trabalho · 01 de 03</div>
+    <h1>Mar de <em>Atlas</em>.<br/>O argumento por uma<br/>Aizú mais serena e profunda.</h1>
+    <p class="lede">Onde a marca se encontra hoje, para onde o mercado de roupa de banho português está a caminhar, e como a coleção de Verão 2026 — e o site que a transporta — pode ocupar um espaço que ninguém em Lisboa ocupa com convicção.</p>
+    <div class="byline">
+      <div><div class="lbl">Preparado para</div><div class="val">Aizú · Fundadora &amp; equipa</div></div>
+      <div><div class="lbl">Ciclo</div><div class="val">Primavera–Verão 2026</div></div>
+      <div><div class="lbl">Região</div><div class="val">Portugal · Envios para a UE</div></div>
+      <div><div class="lbl">Extensão</div><div class="val">Oito capítulos</div></div>
+    </div>
+  </div>
+
+  <div class="toc">
+    <div>
+      <h4>Índice</h4>
+      <ol>
+        <li><span class="n">01</span><a href="#c1">O estado da marca</a><span class="pg">p. 01</span></li>
+        <li><span class="n">02</span><a href="#c2">Auditoria de aizuswim.com</a><span class="pg">p. 02</span></li>
+        <li><span class="n">03</span><a href="#c3">O panorama de roupa de banho em Portugal</a><span class="pg">p. 04</span></li>
+        <li><span class="n">04</span><a href="#c4">Onde a Aizú está bem posicionada</a><span class="pg">p. 06</span></li>
+      </ol>
+    </div>
+    <div>
+      <h4 style="visibility:hidden;">.</h4>
+      <ol>
+        <li><span class="n">05</span><a href="#c5">Público &amp; a mulher a quem vendemos</a><span class="pg">p. 07</span></li>
+        <li><span class="n">06</span><a href="#c6">Mar de Atlas — brief de campanha</a><span class="pg">p. 08</span></li>
+        <li><span class="n">07</span><a href="#c7">Plano de marketing &amp; calendário</a><span class="pg">p. 10</span></li>
+        <li><span class="n">08</span><a href="#c8">Princípios de redesign do site</a><span class="pg">p. 12</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ============== CHAPTER 1 ============== -->
+  <section class="chap" id="c1">
+    <div class="chead">
+      <div class="chnum">CH. 01</div>
+      <div>
+        <h2>O estado da <em>marca</em>.</h2>
+        <div class="csub">Uma pequena marca de roupa de banho cuidada, com uma essência poética que a loja online apenas conta a metade.</div>
+      </div>
+    </div>
+    <div class="body-grid">
+      <div class="marg">Em resumo</div>
+      <div class="col">
+        <p class="lead">A Aizú é uma marca portuguesa de roupa de banho que já conhece o seu tom — sereno, ligado ao mar, escrito em português suave — mas a loja online, a fotografia e o marketing ainda não acompanharam esse caminho. Os nomes das coleções (Aurora, Sol Nascente, Bruma, Calmaria, Alvor) são, sem dúvida, o elemento mais distintivo da identidade da marca, e estão enterrados.</p>
+
+        <h3>O que está a <em>funcionar</em></h3>
+        <p>O sistema de nomes dos produtos é genuinamente distinto. A coleção atual "Amanhecer" é construída em torno da hora intermédia de pouco antes do amanhecer — um território coerente e próprio. A gama de preços €95–110 transmite ponderação em vez de aspiração, o que se adequa a uma mulher entre os 30 e os 45 anos que deixou de comprar moda rápida mas não quer gastar €280 num fato inteiro de Hunza G. O Atlântico, Lisboa e a comunidade de estilo de vida próxima do surf conferem à marca um centro de gravidade geográfico real que a maioria das marcas europeias de roupa de banho não tem.</p>
+
+        <h3>O que a está a <em>travar</em></h3>
+        <p>O site é maioritariamente um tema Shopify por defeito. A fotografia dos produtos é feita com fundo neutro, sem imagens na água, no corpo ou em contexto. Não existe um momento editorial de lookbook para "Amanhecer" — a narrativa da coleção termina no hero da página inicial. A infraestrutura de conversão (guia de tamanhos, avaliações de fit, bundles, voltar ao stock, carrinho abandonado) está em grande parte ausente. Não há captura de email para além de um formulário no rodapé, não há UGC e não há razão evidente para voltar.</p>
+
+        <div class="callout">
+          <div class="label">A oportunidade</div>
+          <p>A Aizú está a uma sessão fotográfica editorial, uma reconstrução do site e uma história bem contada de distância de ser lida como uma marca europeia de roupa de banho médio-premium a sério, em vez de uma pequena loja Shopify com bons produtos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== CHAPTER 2 ============== -->
+  <section class="chap" id="c2">
+    <div class="chead">
+      <div class="chnum">CH. 02</div>
+      <div>
+        <h2>Auditoria de <em>aizuswim.com</em>.</h2>
+        <div class="csub">Oito superfícies, avaliadas face ao que uma cliente numa sessão de consideração real necessita.</div>
+      </div>
+    </div>
+    <div class="body-grid">
+      <div class="marg">Análise</div>
+      <div class="col">
+        <p>Percorremos o site como uma mulher de 34 anos em Cascais à procura de um bom fato inteiro para um longo agosto no Algarve. Isto é o que ela encontrou, e o que não encontrou.</p>
+
+        <table class="audit">
+          <thead>
+            <tr><th style="width:24%;">Superfície</th><th>O que faz hoje</th><th style="width:18%;">Veredicto</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Hero da página inicial</strong></td>
+              <td>Um belo loop de vídeo e uma única linha de poesia. O momento mais forte do site.</td>
+              <td><span class="verdict v-good">Sustenta-se</span></td>
+            </tr>
+            <tr>
+              <td><strong>Narrativa da coleção</strong></td>
+              <td>"Amanhecer" aparece como um nome e uma frase; não existe camada editorial por baixo.</td>
+              <td><span class="verdict v-mid">Incompleto</span></td>
+            </tr>
+            <tr>
+              <td><strong>Fotografia de produto</strong></td>
+              <td>Flat-lay / modelo singular em fundos neutros. Sem imagens na água, sem ambiente, sem contexto.</td>
+              <td><span class="verdict v-bad">Em falta</span></td>
+            </tr>
+            <tr>
+              <td><strong>Página de detalhe do produto</strong></td>
+              <td>Layout padrão estilo Shopify Dawn. Sem notas de fit, sem altura/tamanho do modelo, sem fotos de styling, sem avaliações.</td>
+              <td><span class="verdict v-bad">Subdesenvolvido</span></td>
+            </tr>
+            <tr>
+              <td><strong>Guia de tamanhos e fit</strong></td>
+              <td>Uma tabela de tamanhos estática numa página separada. Sem encontrador de fit, sem indicação do que o modelo veste.</td>
+              <td><span class="verdict v-mid">Funcional</span></td>
+            </tr>
+            <tr>
+              <td><strong>Prova social</strong></td>
+              <td>Nenhuma no site. O Instagram está ativo mas não é apresentado; sem avaliações, sem UGC, sem imprensa.</td>
+              <td><span class="verdict v-bad">Em falta</span></td>
+            </tr>
+            <tr>
+              <td><strong>Captura de email</strong></td>
+              <td>Formulário no rodapé, sem incentivo, sem promessa editorial.</td>
+              <td><span class="verdict v-bad">Fraco</span></td>
+            </tr>
+            <tr>
+              <td><strong>Sobre / Nossa história</strong></td>
+              <td>Existe; não tem ligação destacada a partir da página inicial; a história da fundação é difícil de encontrar.</td>
+              <td><span class="verdict v-mid">Enterrado</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>As quatro vitórias <em>silenciosas</em></h3>
+        <p>Antes de qualquer redesign, quatro alterações vão mexer o ponteiro nos próximos 30 dias: um conjunto de fotos no corpo e na água, notas de fit em cada PDP, um incentivo à newsletter melhor do que "junte-se à nossa lista", e um botão de adicionar ao carrinho fixo no mobile. Nenhuma requer uma reconstrução da marca. Todas estão integradas no redesign que se segue.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== CHAPTER 3 ============== -->
+  <section class="chap" id="c3">
+    <div class="chead">
+      <div class="chnum">CH. 03</div>
+      <div>
+        <h2>O panorama da roupa de banho <em>portuguesa</em>.</h2>
+        <div class="csub">Doze marcas credíveis partilham a praia ibérica. A maioria enquadra-se em uma de duas faixas sobrelotadas.</div>
+      </div>
+    </div>
+    <div class="body-grid">
+      <div class="marg">Mapa</div>
+      <div class="col">
+        <p>A roupa de banho portuguesa é uma categoria pequena mas invulgarmente bem desenvolvida para a dimensão do país — resultado de uma longa costa, uma forte cultura de design em Lisboa e Porto, e uma geração de fundadoras que cresceu através da Cantê e da Latitid. Duas faixas estão sobrelotadas: <em>sustentabilidade como motor</em> (ECONYL®, produção sob encomenda, baixo desperdício) e <em>alegria de cor e padrão</em> (Cantê, 38 Graus, as peças mais chamativas da Latitid). Uma faixa está visivelmente escassa: <em>quietude, ponderação, o oceano como poesia</em> — a faixa que a Aizú já ocupa a meio.</p>
+
+        <h3>Concorrentes diretos identificados pela equipa</h3>
+        <div class="competitor-grid">
+          <div class="comp">
+            <div class="name">Latitid<em>.</em></div>
+            <span class="tag">Premium · Feito em Portugal · est. 2013</span>
+            <p>A referência. Coleções temáticas por cidade, tecidos italianos, vendida na Embaixada e numa lista de retalhistas de resort. Aspiracional mas cada vez mais carregada em padrões.</p>
+            <div class="stats"><span class="pill">€110–180</span><span class="pill">PT · ES · IT</span><span class="pill">~85k IG</span></div>
+          </div>
+          <div class="comp">
+            <div class="name">Conscious <em>Swimwear</em></div>
+            <span class="tag">Sustentável · ECONYL® · est. 2019</span>
+            <p>A aposta pelos valores. Produção sob encomenda em Lisboa, 1% for the Planet, narrativa de sustentabilidade vocal. Coleção pequena, drops lentos, nicho dedicado.</p>
+            <div class="stats"><span class="pill">€85–130</span><span class="pill">PT · UE</span><span class="pill">Sob encomenda</span></div>
+          </div>
+        </div>
+
+        <h3>O campo <em>mais alargado</em></h3>
+        <div class="competitor-grid">
+          <div class="comp">
+            <div class="name">Cantê <em>Lisboa</em></div>
+            <span class="tag">Lúdica · Multi-loja · est. 2011</span>
+            <p>Líder de categoria em Portugal. Padrões vivos, vocação familiar, gamas para homem e criança, retalho no Chiado, Amoreiras, Restelo. Não é uma concorrente tonal.</p>
+            <div class="stats"><span class="pill">€60–110</span><span class="pill">Orientada para o retalho</span></div>
+          </div>
+          <div class="comp">
+            <div class="name">Aumar<em>.</em></div>
+            <span class="tag">Natureza · Tamanhos inclusivos · est. 2014</span>
+            <p>Coleções "Elementos de Gaia", XS–XL, paleta terrosa. A prima tonal mais próxima — vende mais através de grossistas do que DTC.</p>
+            <div class="stats"><span class="pill">€70–120</span></div>
+          </div>
+          <div class="comp">
+            <div class="name">Cleome<em>.</em></div>
+            <span class="tag">Porto · ECONYL® · est. 2017</span>
+            <p>Cortes arquiteturais, paleta contida, crescimento lento. Forte visão estética, fraca narrativa.</p>
+            <div class="stats"><span class="pill">€90–140</span></div>
+          </div>
+          <div class="comp">
+            <div class="name">Drope <em>Clothing</em></div>
+            <span class="tag">Viagem · ECONYL® · est. 2019</span>
+            <p>Enquadramento de "locais paradisíacos", orientada para conteúdo, muito UGC, uma operação mais nativa no digital.</p>
+            <div class="stats"><span class="pill">€70–110</span><span class="pill">IG forte</span></div>
+          </div>
+          <div class="comp">
+            <div class="name">Kalimera<em>.</em></div>
+            <span class="tag">Pré-venda · Fundadora presente · est. 2021</span>
+            <p>Modelo de drop, pequenos lotes, ECONYL®, voz de fundadora. Concorrente direta para a janela dos próximos cinco anos.</p>
+            <div class="stats"><span class="pill">€80–120</span></div>
+          </div>
+          <div class="comp">
+            <div class="name">38 Graus<em>.</em></div>
+            <span class="tag">Padrões ousados · est. 2017</span>
+            <p>Vibrante, divertida, verão pleno. Não é onde a Aizú joga; útil como ponto de contraste.</p>
+            <div class="stats"><span class="pill">€60–95</span></div>
+          </div>
+        </div>
+
+        <h3>O que os seus sites <em>fazem bem</em></h3>
+        <div class="compare">
+          <div>
+            <h5>Latitid — disciplina editorial</h5>
+            <p>Lookbook a página inteira, história por drop, PDP limpa com altura e tamanho do modelo indicados. As suas páginas "Capsule" são o modelo a estudar.</p>
+          </div>
+          <div>
+            <h5>Conscious — compra com narrativa</h5>
+            <p>Cada página de produto indica o impacto: gramas de nylon, de onde veio, para onde vai o 1%. Transmite convicção, não greenwashing.</p>
+          </div>
+          <div>
+            <h5>Drope — motor de UGC</h5>
+            <p>Bloco de Instagram com compra direta na página inicial, fotos de clientes em cada PDP, uma cadência de conteúdo que a Aizú pode credível igualar.</p>
+          </div>
+          <div>
+            <h5>Cantê — ritmo de retalho</h5>
+            <p>Cadência de novas chegadas, guia de tamanhos com alturas dos modelos, CTAs muito claros. O site mais maduro em conversão no conjunto local.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== CHAPTER 4 ============== -->
+  <section class="chap" id="c4">
+    <div class="chead">
+      <div class="chnum">CH. 04</div>
+      <div>
+        <h2>Onde a Aizú está <em>bem posicionada</em>.</h2>
+        <div class="csub">Um mapa de dois eixos do mercado português de roupa de banho mostra um quadrante com muito poucos vizinhos.</div>
+      </div>
+    </div>
+    <div class="body-grid">
+      <div class="marg">Mapa</div>
+      <div class="col">
+
+        <div class="map" aria-label="Mapa de posicionamento">
+          <div class="axis h"></div>
+          <div class="axis v"></div>
+          <div class="lbl t">Serena · Poética</div>
+          <div class="lbl b">Vibrante · Lúdica</div>
+          <div class="lbl l">Acessível</div>
+          <div class="lbl r">Premium</div>
+
+          <div class="pt"      style="left:22%; top:78%;">Cantê</div>
+          <div class="pt"      style="left:30%; top:70%;">38 Graus</div>
+          <div class="pt"      style="left:78%; top:62%;">Latitid</div>
+          <div class="pt"      style="left:55%; top:58%;">Drope</div>
+          <div class="pt"      style="left:42%; top:36%;">Aumar</div>
+          <div class="pt"      style="left:62%; top:30%;">Conscious</div>
+          <div class="pt"      style="left:70%; top:42%;">Cleome</div>
+          <div class="pt"      style="left:50%; top:46%;">Kalimera</div>
+          <div class="pt us"   style="left:74%; top:22%;">Aizú</div>
+        </div>
+
+        <p>O quadrante superior direito — premium e sereno — está pouco habitado. A Conscious está mais próxima, mas a sua conversa é sustentabilidade e não poética. A Cleome partilha a contenção visual mas carece do alcance narrativo. A Aizú é uma das poucas marcas portuguesas que pode credível ser simultaneamente uma marca <em>ponderada</em> e uma marca <em>desejável</em>, sem depender de padrões nem de credenciais ecológicas como gancho principal.</p>
+
+        <div class="callout">
+          <div class="label">Tese de posicionamento</div>
+          <p><strong>A Aizú é a roupa de banho do Atlântico português — serena, ponderada, escrita em poesia, feita para a mulher que lê o mar.</strong> Preço médio-premium, fotografia editorial, nomes de coleção que são eles próprios o marketing. A concorrência não consegue seguir sem soar a imitação.</p>
+        </div>
+
+        <h3>O que isto <em>inclui</em></h3>
+        <p>Narrativa de coleção de formato longo. Drops editoriais nomeados a partir de fenómenos naturais. Lookbooks fotografados nas costas atlânticas (Comporta, Ericeira, Costa Vicentina). Colaborações próximas do surf — construtores de pranchas, fotógrafos de surf — que transmitem literacia do mar, não desporto. Narrativas de tecido ponderadas onde são verdadeiras.</p>
+
+        <h3>O que isto <em>exclui</em></h3>
+        <p>Coleções lideradas por padrões. Viagens com influencers que parecem seeding de moda rápida. Descontos agressivos. Tudo o que compita em preço com a Cantê ou em padrão ousado com a 38 Graus. A disciplina é permanecer serena quando todos os outros estão em voz alta.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== CHAPTER 5 ============== -->
+  <section class="chap" id="c5">
+    <div class="chead">
+      <div class="chnum">CH. 05</div>
+      <div>
+        <h2>A mulher a quem <em>vendemos</em>.</h2>
+        <div class="csub">Um arquétipo central, duas adjacências sazonais.</div>
+      </div>
+    </div>
+    <div class="body-grid">
+      <div class="marg">Persona</div>
+      <div class="col">
+        <h3>Central — <em>Mariana, 36, Cascais</em></h3>
+        <p>Viveu em Lisboa toda a sua vida adulta; passa os fins de semana na casa dos pais em Comporta ou Ericeira. Trabalha em arquitetura, hotelaria, design ou comunicação. Compra duas a três peças de roupa de banho por ano e guarda-as três anos. Lê conteúdo no estilo Kinfolk, ouve Bedouin e Sofia Kourtesis, vai à praia num Volvo de 12 anos. Quer parecer ela própria — não uma turista, não uma influencer.</p>
+
+        <p>O que quer de uma marca de roupa de banho: fotografia real (água, areia, vento no cabelo, não estúdio), um fit em que pode confiar sem experimentar, uma narrativa de coleção que enviaria a uma amiga, e um checkout que não lhe faça perder tempo.</p>
+
+        <h3>Adjacente — <em>Sofia, 32, próxima do surf</em></h3>
+        <p>Faz surf uma vez por semana de maio a outubro, maioritariamente na Praia do Norte / Carcavelos. Quer um fato inteiro que aguente um duck-dive mas não pareça equipamento de performance. Compra na BOW, Patagonia, Amaro Surf — mas pagaria com gosto €100 por uma peça Aizú se o corte funcionar na água.</p>
+
+        <h3>Adjacente — <em>Inês, 41, família</em></h3>
+        <p>Dois filhos com menos de dez anos, Algarve todos os verões. Volta a uma marca de roupa de banho se a marca tornar as compras numa experiência tranquila. Compra três peças num único carrinho se o site ganhar a sua confiança e o guia de tamanhos for honesto. Os bundles e a lista de desejos são para ela.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== CHAPTER 6 ============== -->
+  <section class="chap" id="c6">
+    <div class="chead">
+      <div class="chnum">CH. 06</div>
+      <div>
+        <h2>Mar de <em>Atlas</em>.</h2>
+        <div class="csub">O brief para a coleção de Verão 2026 e o seu lançamento.</div>
+      </div>
+    </div>
+    <div class="body-grid">
+      <div class="marg">Conceito</div>
+      <div class="col">
+        <p class="lead">Atlas sustentou o mundo nos ombros, e o oceano que leva o seu nome é aquele em que a Aizú realmente nada. <em>Mar de Atlas</em> é o Atlântico contado como uma pequena mitologia — profundezas, correntes, luz às nove da manhã, a forma como uma onda chega dez mil quilómetros depois de sair de Terra Nova.</p>
+
+        <blockquote>
+          O Atlântico não é um cenário.<br/>É uma personagem — antiga, paciente, com nome de Titã.
+          <span class="src">Nota de coleção · Mar de Atlas · SS26</span>
+        </blockquote>
+
+        <h3>Seis peças, três <em>capítulos</em></h3>
+        <div class="compare" style="grid-template-columns: 1fr 1fr 1fr;">
+          <div>
+            <h5>I · Profundo</h5>
+            <p>Duas peças em azul oceano profundo — um fato inteiro e um biquíni de cintura alta. Azul-marinho tão escuro que parece preto ao meio-dia, vidro do mar ao pôr do sol.</p>
+          </div>
+          <div>
+            <h5>II · Corrente</h5>
+            <p>Duas em sal e areia — as cores de osso, concha e areia pálida das praias ocidentais. Um halter, um triângulo.</p>
+          </div>
+          <div>
+            <h5>III · Maré</h5>
+            <p>Duas em terracota e sol — o Atlântico na hora dourada, os penhascos da Vicentina. Um fato inteiro com cinto, um top com atilho nas costas.</p>
+          </div>
+        </div>
+
+        <h3>Nomes <em>(em desenvolvimento)</em></h3>
+        <p><em>Atlas, Vaga, Espuma, Farol, Lua-Cheia, Maresia.</em> O sistema de nomes continua "Amanhecer" — português, monossilábico onde possível, nunca uma cor nem uma parte do corpo.</p>
+
+        <h3>Direção de <em>fotografia</em></h3>
+        <p>Dois dias na Praia do Carvalho ou Bordeira, um modelo, um fotógrafo que trabalha em película. Hora azul da manhã, luz dura ao meio-dia, hora dourada, hora azul novamente. Sem adereços. Sem vestuário alternativo. O modelo está mais tempo dentro de água do que fora. Entregamos um filme editorial, um lookbook de vinte frames, um conjunto de PDP por peça (still + no corpo + na água).</p>
+
+        <h3>Momentos de <em>lançamento</em></h3>
+        <ol>
+          <li><strong>13 de maio de 2026</strong> — Teaser no Instagram (filme de 15 segundos, sem produto visível).</li>
+          <li><strong>27 de maio de 2026</strong> — Revelação por newsletter do nome da coleção e do lookbook para subscritores, 48 horas antes do público.</li>
+          <li><strong>29 de maio de 2026</strong> — Lançamento público com nova página inicial e página de destino do Mar de Atlas.</li>
+          <li><strong>5 de jun. de 2026</strong> — Momento do Dia Mundial dos Oceanos — história de formato longo sobre a relação da fundadora com o Atlântico.</li>
+          <li><strong>12 de jun. de 2026</strong> — Jantar de imprensa em Comporta para imprensa &amp; dez creators centrais (íntimo, sem produção).</li>
+          <li><strong>3 de jul. de 2026</strong> — Semana de pop-up na Embaixada ou A Vida Portuguesa (a confirmar).</li>
+          <li><strong>15 de ago. de 2026</strong> — Capítulo de meio de verão (voltar ao stock + destaque das peças Maré).</li>
+          <li><strong>18 de set. de 2026</strong> — Editorial de fim de estação — "Setembro no Atlântico" — fecha o ciclo.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== CHAPTER 7 ============== -->
+  <section class="chap" id="c7">
+    <div class="chead">
+      <div class="chnum">CH. 07</div>
+      <div>
+        <h2>Plano de marketing &amp; <em>calendário</em>.</h2>
+        <div class="csub">Um plano de orçamento moderado: social pago e parcerias com creators, ancorado em conteúdo próprio.</div>
+      </div>
+    </div>
+    <div class="body-grid">
+      <div class="marg">Canais</div>
+      <div class="col">
+
+        <h3>Metas <em>para a estação</em></h3>
+        <div class="kpis">
+          <div class="kpi"><div class="v">+<em>140</em>%</div><div class="l">Receita vs. SS25</div><div class="n">Impulsionado por AOV +18% e conversão +60%.</div></div>
+          <div class="kpi"><div class="v"><em>2,4</em>%</div><div class="l">Taxa de conversão do site</div><div class="n">A partir de uma linha de base estimada de 1,5%.</div></div>
+          <div class="kpi"><div class="v"><em>12</em>k</div><div class="l">Subscritores de email</div><div class="n">Face a uma estimativa de 3k.</div></div>
+          <div class="kpi"><div class="v"><em>30</em>%</div><div class="l">Receita recorrente</div><div class="n">Programa de fidelidade lançado em agosto.</div></div>
+        </div>
+
+        <h3>Mistura de <em>canais</em></h3>
+        <div class="channels">
+          <div class="head">Canal</div>
+          <div class="head">Papel</div>
+          <div class="head">% do orçamento</div>
+          <div class="head">KPI</div>
+          <div class="head">Responsável</div>
+
+          <div class="name">Conteúdo <em>próprio</em></div>
+          <div>Filme editorial + lookbook da sessão fotográfica SS26.</div>
+          <div>25%</div>
+          <div>Biblioteca de ativos</div>
+          <div>Fundadora + DOP</div>
+
+          <div class="name">Social <em>pago</em></div>
+          <div>Prospeção Meta &amp; TikTok + retargeting em PT/ES/FR.</div>
+          <div>35%</div>
+          <div>ROAS ≥ 2.6</div>
+          <div>Agência / freelance</div>
+
+          <div class="name">Seeding de <em>creators</em></div>
+          <div>10–15 creators (surf, design, viagem) — oferta + 2 pagos.</div>
+          <div>15%</div>
+          <div>EMV + volume de UGC</div>
+          <div>Responsável de marca</div>
+
+          <div class="name">Email &amp; <em>SMS</em></div>
+          <div>Fluxo de boas-vindas, revelação do drop, carrinho abandonado, pós-compra.</div>
+          <div>5%</div>
+          <div>30% receita via CRM</div>
+          <div>Fundadora</div>
+
+          <div class="name">RP &amp; <em>eventos</em></div>
+          <div>Jantar de imprensa em Comporta, semana de pop-up, envios para imprensa.</div>
+          <div>15%</div>
+          <div>5+ menções tier-1 PT</div>
+          <div>Parceiro de RP</div>
+
+          <div class="name">SEO &amp; <em>blog</em></div>
+          <div>Dois artigos de fundo por mês.</div>
+          <div>5%</div>
+          <div>Tráfego orgânico +60%</div>
+          <div>Fundadora</div>
+        </div>
+
+        <h3>Calendário <em>trimestral</em></h3>
+        <div class="cal">
+          <div class="head">Faixa</div>
+          <div class="head">Mai</div>
+          <div class="head">Jun</div>
+          <div class="head">Jul</div>
+          <div class="head">Ago</div>
+          <div class="head">Set</div>
+          <div class="head">Out</div>
+
+          <div class="row-label">Próprio</div>
+          <div class="a">Sessão · Edição</div>
+          <div class="a">Lookbook ao vivo</div>
+          <div class="a">Artigo</div>
+          <div class="a">Capítulo de meio de verão</div>
+          <div class="a">Filme de setembro</div>
+          <div class="a">Arquivo</div>
+
+          <div class="row-label">Pago</div>
+          <div></div>
+          <div class="b">Rajada de lançamento</div>
+          <div class="b">Sempre ativo</div>
+          <div class="b">Sempre ativo</div>
+          <div class="b">Retargeting</div>
+          <div></div>
+
+          <div class="row-label">Creator</div>
+          <div class="c">Seeding onda 1</div>
+          <div class="c">Jantar de imprensa</div>
+          <div class="c">Creators de surf</div>
+          <div class="c">Onda 2</div>
+          <div></div>
+          <div></div>
+
+          <div class="row-label">CRM</div>
+          <div class="d">Fluxo de boas-vindas ativo</div>
+          <div class="d">Revelação do drop</div>
+          <div class="d">Venda cruzada</div>
+          <div class="d">Semente de fidelidade</div>
+          <div class="d">Reconquista</div>
+          <div class="d">Opt-out Black Friday</div>
+
+          <div class="row-label">Retalho / RP</div>
+          <div></div>
+          <div class="c">Reconhecimento pop-up</div>
+          <div class="c">Semana de pop-up</div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+
+        <h3>O que <em>não</em> vamos fazer</h3>
+        <p>Sem desconto na Black Friday. Sem prospecto impresso. Sem influencers TikTok pagos acima dos 200k seguidores. Sem Google Search pago para além da defesa do termo de marca. Sem passatempos. A disciplina faz parte da marca.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== CHAPTER 8 ============== -->
+  <section class="chap" id="c8">
+    <div class="chead">
+      <div class="chnum">CH. 08</div>
+      <div>
+        <h2>Princípios de redesign <em>do site</em>.</h2>
+        <div class="csub">O brief para o canvas de redesign — três direções visuais, avaliadas face aos mesmos objetivos de marca &amp; comércio.</div>
+      </div>
+    </div>
+    <div class="body-grid">
+      <div class="marg">Brief</div>
+      <div class="col">
+
+        <h3>Cinco <em>princípios</em></h3>
+        <ol>
+          <li><strong>História antes da grelha.</strong> A página inicial abre com o filme da coleção e um enquadramento editorial, não um carrossel de produtos.</li>
+          <li><strong>Uma voz serena.</strong> Português em primeiro lugar, inglês em segundo, tipografia contida, espaço para respirar.</li>
+          <li><strong>Fotografia como prova.</strong> Cada PDP mostra a peça em três estados: still, no corpo, na água.</li>
+          <li><strong>Conversão que respeita a marca.</strong> Botão de adicionar ao carrinho fixo, notas de fit, sinais de stock reduzido, avaliações — mas apresentados com o aspeto de publicação editorial, não de chrome de e-commerce.</li>
+          <li><strong>Um motivo para voltar.</strong> Incentivo à newsletter que merece o endereço (acesso antecipado ao lookbook SS26, subscritores nomeados nos créditos de lançamento).</li>
+        </ol>
+
+        <h3>Três <em>direções</em>, um conjunto de páginas</h3>
+        <p>O canvas de redesign explora três interpretações visuais distintas da mesma arquitetura, cada uma na página inicial e na página de produto para poderem ser comparadas de igual para igual. Escolhe uma direção; estendemo-la pelo resto do site.</p>
+
+        <div class="competitor-grid">
+          <div class="comp">
+            <div class="name">A · Maré <em>Calma</em></div>
+            <span class="tag">Evolução serena</span>
+            <p>A estética atual da Aizú, elevada. Papel branco-amanteigado, oceano profundo, generoso espaço em branco, tipografia serif em destaque. Menor risco para a marca.</p>
+          </div>
+          <div class="comp">
+            <div class="name">B · Sal &amp; <em>Sol</em></div>
+            <span class="tag">Calor editorial</span>
+            <p>Estilo de revista. Creme mais quente, terracota, tipografia editorial maior, imagens com legendas. Um site de narrativa que também vende.</p>
+          </div>
+          <div class="comp">
+            <div class="name">C · Mar de <em>Atlas</em></div>
+            <span class="tag">Mítico, distintivo</span>
+            <p>Construído para a coleção SS26. Azul-marinho profundo, osso, terracota, toques cartográficos. O mais próprio; o maior retorno.</p>
+          </div>
+        </div>
+
+        <p style="margin-top:24px;">Cada direção inclui os mesmos componentes de conversão — botão de adicionar ao carrinho fixo com seletor de tamanho, galeria UGC / Instagram, avaliações com foto, guardar na lista de desejos, sinais de voltar ao stock, e um pop-up de newsletter com um incentivo real — mas apresenta-os na linguagem da direção.</p>
+
+      </div>
+    </div>
+
+    <div class="endcap">
+      <div>
+        <div class="meta" style="margin-bottom:6px;">Continua em</div>
+        <div style="font-family:var(--serif); font-size:24px;"><a href="Website%20Redesign.html">03 — Redesign do Site →</a></div>
+      </div>
+      <div style="text-align:right;">
+        <div class="meta" style="margin-bottom:6px;">Ou partilhar</div>
+        <div style="font-family:var(--serif); font-size:24px;"><a href="Stakeholder%20Deck.html">02 — Stakeholder Deck →</a></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

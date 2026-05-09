@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Aizú — Redesign do Site · 3 Direcções</title>
+<link rel="stylesheet" href="tokens.css" />
+<style>
+  html,body{margin:0;height:100%;background:#f0eee9;}
+  body{font-family:var(--sans);}
+  .dc-iframe{width:100%;height:100%;border:0;display:block;background:#fff;}
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="design-canvas.jsx"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState } = React;
+
+function Frame({ src }) {
+  return <iframe className="dc-iframe" src={src} loading="lazy" />;
+}
+
+// Each direction is wide (1440) and tall enough to feel "page-like" without
+// being absurd. PDPs are slightly taller. Heights are caps; the iframe is
+// scrollable from inside if the page exceeds them.
+const HOME_W = 1440, HOME_H = 1100;
+const PDP_W  = 1440, PDP_H  = 1100;
+
+function App() {
+  return (
+    <DesignCanvas
+      title="Aizú — Redesign do Site"
+      subtitle="Três direcções visuais × Início + PDP · SS26"
+    >
+      <DCSection
+        id="dirA"
+        title="Direcção A · Maré Calma"
+        subtitle="Editorial suave. Brancos quentes, azul profundo, acento terracota. Mais próxima do ADN atual da Aizú — mas mais confiante, mais no corpo, mais orientada para a conversão."
+      >
+        <DCArtboard id="dirA-home" label="A · Início — Maré Calma" width={HOME_W} height={HOME_H}>
+          <Frame src="redesign/dirA-home.html" />
+        </DCArtboard>
+        <DCArtboard id="dirA-pdp" label="A · Produto — Atlas" width={PDP_W} height={PDP_H}>
+          <Frame src="redesign/dirA-pdp.html" />
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="dirB"
+        title="Direcção B · Sal & Sol"
+        subtitle="Número de revista. Tratar o site como um trimestral impresso — cabeçalho, pranchas, capitulares, colunas de reportagem. O lançamento do verão 2026 chega como a Edição Nº 06."
+      >
+        <DCArtboard id="dirB-home" label="B · Início — Sal & Sol" width={HOME_W} height={HOME_H}>
+          <Frame src="redesign/dirB-home.html" />
+        </DCArtboard>
+        <DCArtboard id="dirB-pdp" label="B · Produto — Atlas" width={PDP_W} height={PDP_H}>
+          <Frame src="redesign/dirB-pdp.html" />
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="dirC"
+        title="Direcção C · Cartas Náuticas"
+        subtitle="A mais ousada e distante do atual. Sistema de cartas náuticas: grelha, coordenadas, sondagens de profundidade, pranchas e pinos. Diferenciada, identitária, muito ‘Atlas’."
+      >
+        <DCArtboard id="dirC-home" label="C · Início — Cartas Náuticas" width={HOME_W} height={HOME_H}>
+          <Frame src="redesign/dirC-home.html" />
+        </DCArtboard>
+        <DCArtboard id="dirC-pdp" label="C · Produto — Atlas" width={PDP_W} height={PDP_H}>
+          <Frame src="redesign/dirC-pdp.html" />
+        </DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
