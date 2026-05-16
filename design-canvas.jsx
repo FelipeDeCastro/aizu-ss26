@@ -347,29 +347,65 @@ function DCViewport({ children, minScale = 0.1, maxScale = 8, style = {} }) {
     };
     const onGestureEnd = (e) => { e.preventDefault(); isGesturing = false; };
 
-    // Drag-pan: middle button anywhere, or primary button on canvas
-    // background (anything that isn't an artboard or an inline editor).
+    // Drag-pan (single touch/pointer on bg) + pinch-to-zoom (two touches).
     let drag = null;
+    let pinch = null; // { dist, cx, cy } incremental pinch state
+    const activePtrs = new Map(); // pointerId -> {x, y}
+
     const onPointerDown = (e) => {
+      activePtrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
       const onBg = !e.target.closest('[data-dc-slot], .dc-editable');
-      if (!(e.button === 1 || (e.button === 0 && onBg))) return;
-      e.preventDefault();
-      vp.setPointerCapture(e.pointerId);
-      drag = { id: e.pointerId, lx: e.clientX, ly: e.clientY };
-      vp.style.cursor = 'grabbing';
+
+      if (activePtrs.size >= 2) {
+        // Second finger down: switch to pinch, cancel any active pan.
+        e.preventDefault();
+        try { vp.setPointerCapture(e.pointerId); } catch {}
+        drag = null;
+        vp.style.cursor = '';
+        const pts = [...activePtrs.values()];
+        const dx = pts[1].x - pts[0].x, dy = pts[1].y - pts[0].y;
+        pinch = { dist: Math.hypot(dx, dy) || 1, cx: (pts[0].x + pts[1].x) / 2, cy: (pts[0].y + pts[1].y) / 2 };
+      } else if (e.button === 1 || (e.button === 0 && onBg)) {
+        e.preventDefault();
+        vp.setPointerCapture(e.pointerId);
+        drag = { id: e.pointerId, lx: e.clientX, ly: e.clientY };
+        vp.style.cursor = 'grabbing';
+      }
     };
+
     const onPointerMove = (e) => {
-      if (!drag || e.pointerId !== drag.id) return;
-      tf.current.x += e.clientX - drag.lx;
-      tf.current.y += e.clientY - drag.ly;
-      drag.lx = e.clientX; drag.ly = e.clientY;
-      apply();
+      if (!activePtrs.has(e.pointerId)) return;
+      activePtrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+      if (pinch && activePtrs.size >= 2) {
+        const pts = [...activePtrs.values()];
+        const dx = pts[1].x - pts[0].x, dy = pts[1].y - pts[0].y;
+        const newDist = Math.hypot(dx, dy) || 1;
+        const cx = (pts[0].x + pts[1].x) / 2, cy = (pts[0].y + pts[1].y) / 2;
+        // Pan from midpoint movement, then zoom at new midpoint (one apply() via zoomAt).
+        tf.current.x += cx - pinch.cx;
+        tf.current.y += cy - pinch.cy;
+        zoomAt(cx, cy, newDist / pinch.dist);
+        pinch = { dist: newDist, cx, cy };
+        return;
+      }
+
+      if (drag && e.pointerId === drag.id) {
+        tf.current.x += e.clientX - drag.lx;
+        tf.current.y += e.clientY - drag.ly;
+        drag.lx = e.clientX; drag.ly = e.clientY;
+        apply();
+      }
     };
+
     const onPointerUp = (e) => {
-      if (!drag || e.pointerId !== drag.id) return;
-      vp.releasePointerCapture(e.pointerId);
-      drag = null;
-      vp.style.cursor = '';
+      activePtrs.delete(e.pointerId);
+      if (activePtrs.size < 2) pinch = null;
+      if (drag && e.pointerId === drag.id) {
+        try { vp.releasePointerCapture(e.pointerId); } catch {}
+        drag = null;
+        vp.style.cursor = '';
+      }
     };
 
     // Host-driven zoom (toolbar % menu). Zooms around viewport centre so the
